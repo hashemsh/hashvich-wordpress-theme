@@ -12,7 +12,7 @@ if ( ! WC()->cart || WC()->cart->is_empty() ) :
 	?>
 	<main id="main" class="min-h-[70vh]">
 		<?php get_template_part( 'template-parts/checkout/hero' ); ?>
-		<div class="container-page py-16 text-center">
+		<div class="container-page py-16 text-center hv-checkout-empty-view">
 			<div class="mx-auto max-w-md rounded-[var(--radius-lg)] border bg-white p-8 shadow-sm">
 				<div class="mx-auto flex size-16 items-center justify-center rounded-full bg-lime-soft text-leaf">
 					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag"><path d="M16 10a4 4 0 0 1-8 0"></path><path d="M3.103 6.034h17.794"></path><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path></svg>

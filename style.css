@@ -138,21 +138,36 @@ Requires PHP: 8.0
 	}
 }
 
-.hv-cart-main-grid,
-.hv-checkout-grid {
+.hv-cart-main-grid {
 	padding-top: 2.75rem !important;
 	padding-bottom: 5rem !important;
 }
 
 @media (min-width: 1024px) {
-	.hv-cart-main-grid,
-	.hv-checkout-grid {
+	.hv-cart-main-grid {
 		padding-top: 3.5rem !important;
 		padding-bottom: 6rem !important;
 	}
 }
 
-.hv-cart-empty-view {
-	padding-top: 4rem !important;
-	padding-bottom: 5.5rem !important;
+.hv-checkout-grid {
+	padding-top: 3.25rem !important;
+	padding-bottom: 6rem !important;
+}
+
+@media (min-width: 1024px) {
+	.hv-checkout-grid {
+		padding-top: 4rem !important;
+		padding-bottom: 7.5rem !important;
+	}
+}
+
+.hv-cart-empty-view,
+.hv-checkout-empty-view {
+	padding-top: 4.5rem !important;
+	padding-bottom: 6.5rem !important;
+}
+
+.woocommerce-notices-wrapper:not(:empty) {
+	margin-bottom: 2rem !important;
 }
