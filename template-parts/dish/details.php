@@ -92,6 +92,9 @@ $description = get_the_excerpt();
 if ( ! $description ) {
 	$description = wp_strip_all_tags( get_the_content() );
 }
+if ( ! $description && function_exists( 'hashvich_get_dish_excerpt' ) ) {
+	$description = hashvich_get_dish_excerpt( $product, 40 );
+}
 ?>
 
 <div class="flex min-w-0 flex-col">
@@ -252,4 +255,25 @@ if ( ! $description ) {
 			</button>
 		</div>
 	</form>
+
+	<!-- ویژگی‌ها و تضمین تحویل زیر دکمه افزودن -->
+	<div class="mt-6 rounded-[var(--radius-lg)] bg-card border border-line/50 p-4 sm:p-5 flex flex-col gap-3 shadow-sm">
+		<div class="flex items-center gap-2 text-forest font-semibold text-[14px]">
+			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+			<span><?php esc_html_e( 'اطلاعات تحویل و تازگی غذا', 'hashvich' ); ?></span>
+		</div>
+		<p class="text-[13px] leading-relaxed text-muted">
+			<?php esc_html_e( 'سفارش بلافاصله به خط پخت آشپزخانه هاشویچ ارسال می‌شود و در ظروف حرارتی مخصوص پلمب شده و در میانگین ۲۸ دقیقه کاملاً داغ به نشانی شما می‌رسد.', 'hashvich' ); ?>
+		</p>
+		<div class="grid grid-cols-2 gap-2 pt-2 border-t border-line/40 text-[12px] text-muted">
+			<span class="flex items-center gap-1.5">
+				<span class="size-1.5 rounded-full bg-forest"></span>
+				<?php esc_html_e( 'پرداخت آنلاین یا در محل', 'hashvich' ); ?>
+			</span>
+			<span class="flex items-center gap-1.5">
+				<span class="size-1.5 rounded-full bg-forest"></span>
+				<?php esc_html_e( 'پلمب حرارتی ضد دستکاری', 'hashvich' ); ?>
+			</span>
+		</div>
+	</div>
 </div>

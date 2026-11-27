@@ -152,10 +152,6 @@ $img_dir_uri = get_template_directory_uri() . '/assets/images/';
 					<?php echo esc_html( $minutes_fa ); ?> <?php esc_html_e( 'دقیقه', 'hashvich' ); ?> <span aria-hidden="true">|</span><span class="sr-only">،</span> <?php echo esc_html( $calories_fa ); ?> <?php esc_html_e( 'کیلوکالری', 'hashvich' ); ?>
 				</span>
 
-				<p class="mt-2 text-[13px] leading-relaxed text-muted/90 line-clamp-2">
-					<?php echo esc_html( hashvich_get_dish_excerpt( $product ) ); ?>
-				</p>
-
 				<div class="mt-4 flex items-center justify-between">
 					<span class="inline-flex items-baseline gap-2">
 						<span class="font-semibold tabular-nums text-[20px]"><?php echo hashvich_format_price( $price ); ?></span>
