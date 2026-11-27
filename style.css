@@ -254,6 +254,66 @@ select.hv-input-error {
 	}
 }
 
+/* ==========================================================
+ * استایل‌های اختصاصی فرآیند سه‌مرحله‌ای (Process Steps)
+ * ========================================================== */
+.hv-process-icon-wrap {
+	position: relative;
+	width: 64px;
+	height: 64px;
+	margin: 0 auto 1.25rem;
+}
+
+.hv-process-icon-bg {
+	width: 64px;
+	height: 64px;
+	border-radius: 18px;
+	background-color: rgba(247, 195, 46, 0.22);
+	border: 1px solid rgba(247, 195, 46, 0.4);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #103b29;
+	box-shadow: 0 4px 12px rgba(247, 195, 46, 0.15);
+}
+
+.hv-process-step-badge {
+	position: absolute;
+	top: -6px;
+	right: -6px;
+	width: 28px;
+	height: 28px;
+	border-radius: 9999px;
+	background-color: #103b29;
+	color: #ffffff;
+	font-size: 13px;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px solid #ffffff;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.hv-process-stat-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.hv-process-stat-num {
+	font-size: 1.625rem;
+	font-weight: 800;
+	color: #103b29;
+	letter-spacing: -0.02em;
+	margin-top: 0.25rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.35rem;
+}
+
 /* یوتیلیتی‌های پدینگ جهت اطمینان از اعمال در تمامی برگه‌ها */
 .py-8 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
 .py-10 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
