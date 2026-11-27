@@ -10,10 +10,11 @@ defined( 'ABSPATH' ) || exit;
 
 	<!-- فوتر سراسری سایت -->
 	<footer class="site-footer on-dark doodles bg-forest text-white mt-auto">
-		<div class="container-page grid gap-12 pt-16 pb-10 md:grid-cols-[1.3fr_2fr]">
+		<!-- ساختار تک‌ردیفهٔ ۴ ستونه: دو ستون کناری عریض، دو ستون میانی جمع‌وجور -->
+		<div class="container-page grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_0.85fr_0.85fr_1.8fr] gap-8 lg:gap-10 pt-16 pb-12 items-start">
 
-			<!-- ستون ۱: مشخصات و تماس برند -->
-			<div class="flex flex-col gap-5">
+			<!-- ستون ۱ (کناری راست - عریض): مشخصات، معرفی و تماس برند -->
+			<div class="flex flex-col gap-4">
 				<span class="inline-flex items-center gap-2.5 font-semibold tracking-[-0.02em] text-white">
 					<svg viewBox="0 0 40 40" class="size-9" aria-hidden="true">
 						<path d="M6 26c4 6 12 9 20 6" stroke="var(--color-sun)" stroke-width="3.4" fill="none" stroke-linecap="round"></path>
@@ -35,74 +36,71 @@ defined( 'ABSPATH' ) || exit;
 				</div>
 			</div>
 
-			<!-- ستون ۲: لینک‌های راهنما و خبرنامه -->
-			<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_2.4fr]">
-
-				<!-- ستون لینک‌های سفارش -->
-				<div>
-					<h2 class="mb-3 text-[15px] font-semibold text-sun"><?php esc_html_e( 'سفارش', 'hashvich' ); ?></h2>
-					<?php
-					if ( has_nav_menu( 'footer_orders' ) ) {
-						wp_nav_menu(
-							array(
-								'theme_location' => 'footer_orders',
-								'container'      => false,
-								'menu_class'     => 'flex flex-col',
-								'fallback_cb'    => false,
-							)
-						);
-					} else {
-						?>
-						<ul class="flex flex-col">
-							<li><a class="inline-flex min-h-10 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/menu/' ) ); ?>"><?php esc_html_e( 'منوی کامل', 'hashvich' ); ?></a></li>
-							<li><a class="inline-flex min-h-10 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/offers/' ) ); ?>"><?php esc_html_e( 'پیشنهادها و کدها', 'hashvich' ); ?></a></li>
-							<li><a class="inline-flex min-h-10 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/tracking/' ) ); ?>"><?php esc_html_e( 'پیگیری سفارش', 'hashvich' ); ?></a></li>
-						</ul>
-						<?php
-					}
+			<!-- ستون ۲ (وسط - عرض کمتر): منوی سفارش -->
+			<div>
+				<h2 class="mb-4 text-[16px] font-semibold text-sun"><?php esc_html_e( 'سفارش', 'hashvich' ); ?></h2>
+				<?php
+				if ( has_nav_menu( 'footer_orders' ) ) {
+					wp_nav_menu(
+						array(
+							'theme_location' => 'footer_orders',
+							'container'      => false,
+							'menu_class'     => 'flex flex-col gap-1',
+							'fallback_cb'    => false,
+						)
+					);
+				} else {
 					?>
-				</div>
-
-				<!-- ستون درباره هاشویچ -->
-				<div>
-					<h2 class="mb-3 text-[15px] font-semibold text-sun"><?php esc_html_e( 'هاشویچ', 'hashvich' ); ?></h2>
+					<ul class="flex flex-col gap-1">
+						<li><a class="inline-flex min-h-9 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/menu/' ) ); ?>"><?php esc_html_e( 'منوی کامل', 'hashvich' ); ?></a></li>
+						<li><a class="inline-flex min-h-9 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/offers/' ) ); ?>"><?php esc_html_e( 'پیشنهادها و کدها', 'hashvich' ); ?></a></li>
+						<li><a class="inline-flex min-h-9 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/tracking/' ) ); ?>"><?php esc_html_e( 'پیگیری سفارش', 'hashvich' ); ?></a></li>
+					</ul>
 					<?php
-					if ( has_nav_menu( 'footer_brand' ) ) {
-						wp_nav_menu(
-							array(
-								'theme_location' => 'footer_brand',
-								'container'      => false,
-								'menu_class'     => 'flex flex-col',
-								'fallback_cb'    => false,
-							)
-						);
-					} else {
-						?>
-						<ul class="flex flex-col">
-							<li><a class="inline-flex min-h-10 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/about/' ) ); ?>"><?php esc_html_e( 'درباره ما', 'hashvich' ); ?></a></li>
-							<li><a class="inline-flex min-h-10 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/reviews/' ) ); ?>"><?php esc_html_e( 'نظرات مشتریان', 'hashvich' ); ?></a></li>
-							<li><a class="inline-flex min-h-10 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/about/#contact' ) ); ?>"><?php esc_html_e( 'تماس با ما', 'hashvich' ); ?></a></li>
-						</ul>
-						<?php
-					}
-					?>
-				</div>
-
-				<!-- فرم عضویت خبرنامه با عرض گسترده -->
-				<div class="sm:col-span-2 lg:col-span-1">
-					<h2 class="mb-2 text-[15px] font-semibold text-sun"><?php esc_html_e( 'تخفیف‌ها در ایمیل شما', 'hashvich' ); ?></h2>
-					<p class="mb-4 text-[14px] text-on-forest-muted"><?php esc_html_e( 'هفته‌ای یک ایمیل با غذاهای جدید و بهترین کدها. هر وقت خواستید لغو کنید.', 'hashvich' ); ?></p>
-					<form method="post" action="" class="flex flex-col gap-2" onsubmit="event.preventDefault(); alert('ایمیل شما با موفقیت ثبت شد!');">
-						<div class="flex items-center gap-2 w-full">
-							<label for="footer-email-input" class="sr-only"><?php esc_html_e( 'ایمیل', 'hashvich' ); ?></label>
-							<input class="w-full flex-1 min-w-0 rounded-full border-[1.5px] border-line-strong bg-white px-5 text-[15px] text-ink placeholder:text-faint transition-[border-color,box-shadow] duration-[var(--duration-fast)] hov:border-muted focus:border-leaf focus:outline-none focus:shadow-[0_0_0_4px_rgb(23_96_60/0.15)] h-12" id="footer-email-input" autocomplete="email" placeholder="you@example.com" type="email" required>
-							<button type="submit" class="round relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition-[background-color,color,transform] duration-[var(--duration-fast)] ease-[var(--ease-out)] bg-sun text-ink hover:bg-sun-2 h-12 px-7 text-[15px] shrink-0 shadow-[0_4px_14px_rgba(247,195,46,0.3)]">
-								<span><?php esc_html_e( 'عضویت', 'hashvich' ); ?></span>
-							</button>
-						</div>
-					</form>
-				</div>
+				}
+				?>
 			</div>
+
+			<!-- ستون ۳ (وسط - عرض کمتر): درباره هاشویچ -->
+			<div>
+				<h2 class="mb-4 text-[16px] font-semibold text-sun"><?php esc_html_e( 'هاشویچ', 'hashvich' ); ?></h2>
+				<?php
+				if ( has_nav_menu( 'footer_brand' ) ) {
+					wp_nav_menu(
+						array(
+							'theme_location' => 'footer_brand',
+							'container'      => false,
+							'menu_class'     => 'flex flex-col gap-1',
+							'fallback_cb'    => false,
+						)
+					);
+				} else {
+					?>
+					<ul class="flex flex-col gap-1">
+						<li><a class="inline-flex min-h-9 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/about/' ) ); ?>"><?php esc_html_e( 'درباره ما', 'hashvich' ); ?></a></li>
+						<li><a class="inline-flex min-h-9 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/reviews/' ) ); ?>"><?php esc_html_e( 'نظرات مشتریان', 'hashvich' ); ?></a></li>
+						<li><a class="inline-flex min-h-9 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/about/#contact' ) ); ?>"><?php esc_html_e( 'تماس با ما', 'hashvich' ); ?></a></li>
+					</ul>
+					<?php
+				}
+				?>
+			</div>
+
+			<!-- ستون ۴ (کناری چپ - عریض): فرم عضویت خبرنامه -->
+			<div class="flex flex-col gap-3">
+				<h2 class="text-[16px] font-semibold text-sun"><?php esc_html_e( 'تخفیف‌ها در ایمیل شما', 'hashvich' ); ?></h2>
+				<p class="text-[14px] leading-relaxed text-on-forest-muted"><?php esc_html_e( 'هفته‌ای یک ایمیل با غذاهای جدید و بهترین کدها. هر وقت خواستید لغو کنید.', 'hashvich' ); ?></p>
+				<form method="post" action="" class="mt-1" onsubmit="event.preventDefault(); alert('ایمیل شما با موفقیت ثبت شد!');">
+					<div class="flex items-center gap-2 w-full">
+						<label for="footer-email-input" class="sr-only"><?php esc_html_e( 'ایمیل', 'hashvich' ); ?></label>
+						<input class="w-full flex-1 min-w-0 rounded-full border-[1.5px] border-line-strong bg-white px-5 text-[15px] text-ink placeholder:text-faint transition-[border-color,box-shadow] duration-[var(--duration-fast)] hov:border-muted focus:border-leaf focus:outline-none focus:shadow-[0_0_0_4px_rgb(23_96_60/0.15)] h-12" id="footer-email-input" autocomplete="email" placeholder="you@example.com" type="email" required>
+						<button type="submit" class="round relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition-[background-color,color,transform] duration-[var(--duration-fast)] ease-[var(--ease-out)] bg-sun text-ink hover:bg-sun-2 h-12 px-7 text-[15px] shrink-0 shadow-[0_4px_14px_rgba(247,195,46,0.3)]">
+							<span><?php esc_html_e( 'عضویت', 'hashvich' ); ?></span>
+						</button>
+					</div>
+				</form>
+			</div>
+
 		</div>
 
 		<!-- نوار کپی‌رایت و امضای توسعه‌دهنده -->
