@@ -100,12 +100,12 @@ if ( taxonomy_exists( 'product_cat' ) ) {
 
 <section class="mt-24 bg-lime md:mt-28" aria-labelledby="cats">
 	<div class="container-page py-16 md:py-20">
-		<div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-10">
-			<h2 class="max-w-[440px] text-[clamp(1.9rem,1.2rem+1.8vw,2.4rem)] leading-[1.12] font-semibold">
+		<div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-8">
+			<h2 class="text-[clamp(1.35rem,1.05rem+0.85vw,1.85rem)] leading-normal font-bold">
 				<span id="cats"><?php esc_html_e( 'دسته‌به‌دسته، طعم‌های خوشمزه را کشف کنید', 'hashvich' ); ?></span>
 			</h2>
-			<div class="flex max-w-[400px] flex-col gap-4 md:pt-2">
-				<p class="text-[14px] leading-relaxed text-muted">
+			<div class="flex max-w-[440px] flex-col">
+				<p class="text-[15px] leading-relaxed text-muted">
 					<?php esc_html_e( 'هفت آشپزخانه زیر یک سقف. هر چه هوس کرده‌اید انتخاب کنید؛ داغ به درتان می‌رسانیم.', 'hashvich' ); ?>
 				</p>
 			</div>

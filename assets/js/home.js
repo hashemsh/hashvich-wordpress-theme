@@ -7,6 +7,39 @@
 (function ($) {
 	'use strict';
 
+	/**
+	 * تبدیل اعداد انگلیسی به فارسی
+	 *
+	 * @param {number|string} n عدد ورودی
+	 * @returns {string} رشته با ارقام فارسی
+	 */
+	function toPersianDigits(n) {
+		var num = parseInt(n, 10) || 0;
+		var str = (num < 10 ? '0' : '') + num;
+		var en = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+		var fa = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+		for (var i = 0; i < 10; i++) {
+			str = str.replace(new RegExp(en[i], 'g'), fa[i]);
+		}
+		return str;
+	}
+
+	/**
+	 * تبدیل ارقام فارسی به عدد انگلیسی برای محاسبات
+	 *
+	 * @param {string} str رشته فارسی
+	 * @returns {number} عدد انگلیسی
+	 */
+	function parsePersianDigits(str) {
+		var fa = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+		var en = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+		var s = (str || '').trim();
+		for (var i = 0; i < 10; i++) {
+			s = s.replace(new RegExp(fa[i], 'g'), en[i]);
+		}
+		return parseInt(s, 10) || 0;
+	}
+
 	// ۱. کانتینر توئست‌ها
 	var toastContainer = document.querySelector('[role="status"][aria-live="polite"]');
 	if (!toastContainer) {
@@ -52,18 +85,18 @@
 		}, 3800);
 	}
 
-	// ۲. مدیریت تایمرهای شمارش معکوس بخش پیشنهادهای لحظه‌ای (deals)
+	// ۲. مدیریت تایمرهای شمارش معکوس بخش پیشنهادهای لحظه‌ای با ارقام فارسی
 	function initDealsTimers() {
 		var timers = document.querySelectorAll('[role="timer"]');
 		if (!timers.length) return;
 
 		timers.forEach(function (timer) {
-			var spans = timer.querySelectorAll('span[aria-hidden="true"]');
-			if (spans.length < 3) return;
+			var badges = timer.querySelectorAll('.hv-timer-badge');
+			if (badges.length < 3) return;
 
-			var h = parseInt(spans[0].textContent, 10) || 0;
-			var m = parseInt(spans[1].textContent, 10) || 0;
-			var s = parseInt(spans[2].textContent, 10) || 0;
+			var h = parsePersianDigits(badges[0].textContent);
+			var m = parsePersianDigits(badges[1].textContent);
+			var s = parsePersianDigits(badges[2].textContent);
 			var totalSeconds = h * 3600 + m * 60 + s;
 			if (totalSeconds <= 0) totalSeconds = 45 * 60 + 30;
 
@@ -81,11 +114,11 @@
 					var minutes = Math.floor((sec % 3600) / 60);
 					var seconds = sec % 60;
 
-					var spans = timer.querySelectorAll('span[aria-hidden="true"]');
-					if (spans.length >= 3) {
-						spans[0].textContent = (hours < 10 ? '0' : '') + hours;
-						spans[1].textContent = (minutes < 10 ? '0' : '') + minutes;
-						spans[2].textContent = (seconds < 10 ? '0' : '') + seconds;
+					var badges = timer.querySelectorAll('.hv-timer-badge');
+					if (badges.length >= 3) {
+						badges[0].textContent = toPersianDigits(hours);
+						badges[1].textContent = toPersianDigits(minutes);
+						badges[2].textContent = toPersianDigits(seconds);
 					}
 				}
 			});
@@ -104,13 +137,13 @@
 
 			if (!countSpan || !minusBtn || !plusBtn) return;
 
-			var count = parseInt(countSpan.textContent, 10) || 1;
+			var count = parsePersianDigits(countSpan.textContent) || 1;
 			minusBtn.disabled = count <= 1;
 
 			plusBtn.addEventListener('click', function (e) {
 				e.preventDefault();
 				count += 1;
-				countSpan.textContent = count;
+				countSpan.textContent = toPersianDigits(count).replace(/^۰/, '');
 				minusBtn.disabled = false;
 				if (addToCartBtn) {
 					addToCartBtn.setAttribute('data-quantity', count);
@@ -121,7 +154,7 @@
 				e.preventDefault();
 				if (count > 1) {
 					count -= 1;
-					countSpan.textContent = count;
+					countSpan.textContent = toPersianDigits(count).replace(/^۰/, '');
 					minusBtn.disabled = (count <= 1);
 					if (addToCartBtn) {
 						addToCartBtn.setAttribute('data-quantity', count);
@@ -188,12 +221,12 @@
 		} else {
 			var cartUrl = (window.hashvichData && window.hashvichData.cartUrl) ? window.hashvichData.cartUrl : '/cart/';
 			var viewCart = (window.hashvichData && window.hashvichData.viewCart) ? window.hashvichData.viewCart : 'مشاهده سبد';
-			showToast('«' + itemName + '» (' + qty + ' عدد) به سبد خرید اضافه شد.', cartUrl, viewCart);
+			showToast('«' + itemName + '» (' + toPersianDigits(qty).replace(/^۰/, '') + ' عدد) به سبد خرید اضافه شد.', cartUrl, viewCart);
 
 			var $badge = $('.hv-cart-count');
 			if ($badge.length) {
 				var cur = parseInt($badge.text().replace(/\D/g, ''), 10) || 0;
-				$badge.text('(' + (cur + qty) + ')');
+				$badge.text('(' + toPersianDigits(cur + qty).replace(/^۰/, '') + ')');
 			}
 		}
 	});
@@ -221,11 +254,44 @@
 		showToast('«' + itemName + '» به سبد خرید اضافه شد.', cartUrl, viewCart);
 	});
 
+	// ۷. انیمیشن بانس (Bounce) محصولات بخش انتخاب‌های ویژه ما هنگام اسکرول
+	function initProductBounce() {
+		var picksSection = document.querySelector('section[aria-labelledby="picks"]');
+		if (!picksSection) return;
+
+		var productImages = picksSection.querySelectorAll('.hv-product-image');
+		if (!productImages.length) return;
+
+		if ('IntersectionObserver' in window) {
+			var observer = new IntersectionObserver(function (entries) {
+				entries.forEach(function (entry) {
+					if (entry.isIntersecting) {
+						productImages.forEach(function (img, idx) {
+							setTimeout(function () {
+								img.classList.add('hv-bounce-in');
+							}, idx * 90);
+						});
+						observer.unobserve(picksSection);
+					}
+				});
+			}, {
+				threshold: 0.15
+			});
+
+			observer.observe(picksSection);
+		} else {
+			productImages.forEach(function (img) {
+				img.classList.add('hv-bounce-in');
+			});
+		}
+	}
+
 	// اجرای تمامی ماژول‌ها پس از آماده‌سازی سند
 	$(document).ready(function () {
 		initDealsTimers();
 		initQuantitySelectors();
 		initFavorites();
+		initProductBounce();
 	});
 
 })(jQuery);

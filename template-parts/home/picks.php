@@ -40,7 +40,7 @@ $menu_url    = home_url( '/menu/' );
 
 <section class="container-page pt-24 md:pt-28" aria-labelledby="picks">
 	<div class="flex flex-col gap-3 items-center text-center">
-		<h2 class="text-[clamp(1.9rem,1.2rem+1.8vw,2.6rem)] leading-[1.1] font-semibold">
+		<h2 class="text-[clamp(1.4rem,1.1rem+1vw,1.9rem)] leading-normal font-bold">
 			<span id="picks"><?php esc_html_e( 'انتخاب‌های ویژه ما', 'hashvich' ); ?></span>
 		</h2>
 		<a class="inline-flex min-h-10 items-center gap-1.5 text-[15px] font-medium text-leaf hover:underline" href="<?php echo esc_url( $menu_url ); ?>" data-discover="true">
@@ -124,7 +124,7 @@ $menu_url    = home_url( '/menu/' );
 						</div>
 
 						<div class="flex aspect-[16/10] items-center justify-center">
-							<img alt="<?php echo esc_attr( $title ); ?>" class="select-none object-contain h-full w-auto max-w-[78%] transition-transform duration-[var(--duration-slow)] ease-[var(--ease-out)] group-hover:scale-[1.06] group-hover:-rotate-2" draggable="false" loading="lazy" decoding="async" src="<?php echo esc_url( $image_url ); ?>">
+							<img alt="<?php echo esc_attr( $title ); ?>" class="hv-product-image select-none object-contain h-full w-auto max-w-[78%] transition-transform duration-[var(--duration-slow)] ease-[var(--ease-out)] group-hover:scale-[1.06] group-hover:-rotate-2" draggable="false" loading="lazy" decoding="async" src="<?php echo esc_url( $image_url ); ?>">
 						</div>
 
 						<h3 class="mt-4 text-[18px] leading-snug font-semibold">
@@ -246,7 +246,7 @@ $menu_url    = home_url( '/menu/' );
 						</div>
 
 						<div class="flex aspect-[16/10] items-center justify-center">
-							<img alt="<?php echo esc_attr( $item['title'] ); ?>" class="select-none object-contain h-full w-auto max-w-[78%] transition-transform duration-[var(--duration-slow)] ease-[var(--ease-out)] group-hover:scale-[1.06] group-hover:-rotate-2" draggable="false" loading="lazy" decoding="async" src="<?php echo esc_url( $img_dir_uri . $item['photo'] ); ?>">
+							<img alt="<?php echo esc_attr( $item['title'] ); ?>" class="hv-product-image select-none object-contain h-full w-auto max-w-[78%] transition-transform duration-[var(--duration-slow)] ease-[var(--ease-out)] group-hover:scale-[1.06] group-hover:-rotate-2" draggable="false" loading="lazy" decoding="async" src="<?php echo esc_url( $img_dir_uri . $item['photo'] ); ?>">
 						</div>
 
 						<h3 class="mt-4 text-[18px] leading-snug font-semibold">
