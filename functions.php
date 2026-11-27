@@ -136,6 +136,38 @@ add_action(
 				)
 			);
 		}
+
+		// ۹. اسکریپت تعاملی سبد خرید و تسویه‌حساب (Cart & Checkout)
+		$is_cart_page     = function_exists( 'is_cart' ) && is_cart();
+		$is_checkout_page = function_exists( 'is_checkout' ) && is_checkout();
+		$is_custom_cart   = is_page( 'cart' ) || is_page_template( 'page-cart.php' );
+		$is_custom_check  = is_page( 'checkout' ) || is_page_template( 'page-checkout.php' );
+
+		if ( $is_cart_page || $is_checkout_page || $is_custom_cart || $is_custom_check ) {
+			$cart_js_path = $theme_dir . '/assets/js/cart-checkout.js';
+			$cart_js_ver  = file_exists( $cart_js_path ) ? (string) filemtime( $cart_js_path ) : HASHVICH_VERSION;
+			wp_enqueue_script( 'hashvich-cart-checkout', $theme_uri . '/assets/js/cart-checkout.js', array( 'jquery' ), $cart_js_ver, true );
+			wp_localize_script(
+				'hashvich-cart-checkout',
+				'hashvichCartData',
+				array(
+					'ajaxUrl'           => admin_url( 'admin-ajax.php' ),
+					'cartUrl'           => function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' ),
+					'checkoutUrl'       => function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : home_url( '/checkout/' ),
+					'currencySymbol'    => function_exists( 'get_woocommerce_currency_symbol' ) ? get_woocommerce_currency_symbol() : 'تومان',
+					'freeShippingLimit' => 320000,
+					'i18n'              => array(
+						'itemRemoved'   => __( 'آیتم با موفقیت از سبد حذف شد', 'hashvich' ),
+						'cartUpdated'   => __( 'سبد خرید به‌روزرسانی شد', 'hashvich' ),
+						'couponApplied' => __( 'کد تخفیف با موفقیت اعمال شد', 'hashvich' ),
+						'couponRemoved' => __( 'کد تخفیف حذف شد', 'hashvich' ),
+						'couponError'   => __( 'کد تخفیف معتبر نیست', 'hashvich' ),
+						'fillRequired'  => __( 'لطفاً فیلدهای الزامی را تکمیل نمایید', 'hashvich' ),
+						'processing'    => __( 'در حال پردازش سفارش...', 'hashvich' ),
+					),
+				)
+			);
+		}
 	}
 );
 
@@ -466,3 +498,273 @@ function hashvich_ajax_add_to_cart_handler() {
 }
 add_action( 'wp_ajax_hashvich_add_to_cart', 'hashvich_ajax_add_to_cart_handler' );
 add_action( 'wp_ajax_nopriv_hashvich_add_to_cart', 'hashvich_ajax_add_to_cart_handler' );
+
+/**
+ * ==========================================================
+ * توابع و هندلرهای سبد خرید و تسویه‌حساب (Cart & Checkout AJAX)
+ * ==========================================================
+ */
+
+/**
+ * افزودن انعام اختیاری پیک به صورت‌حساب سبد خرید
+ */
+add_action(
+	'woocommerce_cart_calculate_fees',
+	function () {
+		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+			return;
+		}
+		if ( ! function_exists( 'WC' ) || ! WC()->session ) {
+			return;
+		}
+		$tip = (float) WC()->session->get( 'hv_courier_tip', 0 );
+		if ( $tip > 0 ) {
+			WC()->cart->add_fee( __( 'انعام پیک', 'hashvich' ), $tip, false );
+		}
+	}
+);
+
+/**
+ * ذخیره فیلدهای سفارشی تسویه‌حساب (نوع تحویل، ساعت، انعام) در متای سفارش
+ */
+add_action(
+	'woocommerce_checkout_create_order',
+	function ( $order, $data ) {
+		if ( ! empty( $_POST['hv_delivery_type'] ) ) {
+			$order->update_meta_data( '_hv_delivery_type', sanitize_text_field( wp_unslash( $_POST['hv_delivery_type'] ) ) );
+		}
+		if ( ! empty( $_POST['hv_delivery_time'] ) ) {
+			$order->update_meta_data( '_hv_delivery_time', sanitize_text_field( wp_unslash( $_POST['hv_delivery_time'] ) ) );
+		}
+		if ( isset( $_POST['hv_tip'] ) && (float) $_POST['hv_tip'] > 0 ) {
+			$order->update_meta_data( '_hv_courier_tip', (float) sanitize_text_field( wp_unslash( $_POST['hv_tip'] ) ) );
+		}
+	},
+	10,
+	2
+);
+
+/**
+ * عدم اجباری بودن آدرس در صورت انتخاب تحویل حضوری
+ */
+add_filter(
+	'woocommerce_checkout_fields',
+	function ( $fields ) {
+		if ( isset( $_POST['hv_delivery_type'] ) && 'pickup' === $_POST['hv_delivery_type'] ) {
+			if ( isset( $fields['billing']['billing_address_1'] ) ) {
+				$fields['billing']['billing_address_1']['required'] = false;
+			}
+			if ( isset( $fields['billing']['billing_city'] ) ) {
+				$fields['billing']['billing_city']['required'] = false;
+			}
+			if ( isset( $fields['billing']['billing_postcode'] ) ) {
+				$fields['billing']['billing_postcode']['required'] = false;
+			}
+		}
+		return $fields;
+	}
+);
+
+// حذف فرم پیش‌فرض بنر کوپن در بالای صفحه تسویه‌حساب (چون درون سایدبار تعبیه شده است)
+remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
+
+/**
+ * به‌روزرسانی تعداد آیتم در سبد خرید از طریق AJAX
+ */
+function hashvich_ajax_update_cart_quantity_handler() {
+	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+		wp_send_json_error( array( 'message' => __( 'سبد خرید یافت نشد.', 'hashvich' ) ) );
+	}
+
+	$cart_item_key = isset( $_POST['cart_item_key'] ) ? sanitize_text_field( wp_unslash( $_POST['cart_item_key'] ) ) : '';
+	$quantity      = isset( $_POST['quantity'] ) ? absint( $_POST['quantity'] ) : 1;
+
+	if ( empty( $cart_item_key ) || ! isset( WC()->cart->get_cart()[ $cart_item_key ] ) ) {
+		wp_send_json_error( array( 'message' => __( 'آیتم مورد نظر در سبد خرید یافت نشد.', 'hashvich' ) ) );
+	}
+
+	WC()->cart->set_quantity( $cart_item_key, $quantity, true );
+	WC()->cart->calculate_totals();
+
+	$cart_item     = WC()->cart->get_cart()[ $cart_item_key ] ?? null;
+	$line_subtotal = '';
+	if ( $cart_item ) {
+		$product       = $cart_item['data'];
+		$line_subtotal = WC()->cart->get_product_subtotal( $product, $quantity );
+	}
+
+	ob_start();
+	wc_cart_totals_subtotal_html();
+	$cart_subtotal_html = ob_get_clean();
+
+	ob_start();
+	wc_cart_totals_order_total_html();
+	$cart_total_html = ob_get_clean();
+
+	wp_send_json_success(
+		array(
+			'line_subtotal' => $line_subtotal,
+			'cart_subtotal' => $cart_subtotal_html,
+			'cart_total'    => $cart_total_html,
+			'cart_count'    => WC()->cart->get_cart_contents_count(),
+			'subtotal_raw'  => WC()->cart->subtotal,
+		)
+	);
+}
+add_action( 'wp_ajax_hashvich_update_cart_quantity', 'hashvich_ajax_update_cart_quantity_handler' );
+add_action( 'wp_ajax_nopriv_hashvich_update_cart_quantity', 'hashvich_ajax_update_cart_quantity_handler' );
+
+/**
+ * حذف یک آیتم از سبد خرید از طریق AJAX
+ */
+function hashvich_ajax_remove_cart_item_handler() {
+	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+		wp_send_json_error( array( 'message' => __( 'سبد خرید یافت نشد.', 'hashvich' ) ) );
+	}
+
+	$cart_item_key = isset( $_POST['cart_item_key'] ) ? sanitize_text_field( wp_unslash( $_POST['cart_item_key'] ) ) : '';
+
+	if ( empty( $cart_item_key ) || ! isset( WC()->cart->get_cart()[ $cart_item_key ] ) ) {
+		wp_send_json_error( array( 'message' => __( 'آیتم در سبد خرید موجود نیست.', 'hashvich' ) ) );
+	}
+
+	WC()->cart->remove_cart_item( $cart_item_key );
+	WC()->cart->calculate_totals();
+
+	$is_empty = WC()->cart->is_empty();
+
+	ob_start();
+	wc_cart_totals_subtotal_html();
+	$cart_subtotal_html = ob_get_clean();
+
+	ob_start();
+	wc_cart_totals_order_total_html();
+	$cart_total_html = ob_get_clean();
+
+	wp_send_json_success(
+		array(
+			'cart_is_empty' => $is_empty,
+			'cart_subtotal' => $cart_subtotal_html,
+			'cart_total'    => $cart_total_html,
+			'cart_count'    => WC()->cart->get_cart_contents_count(),
+			'subtotal_raw'  => WC()->cart->subtotal,
+		)
+	);
+}
+add_action( 'wp_ajax_hashvich_remove_cart_item', 'hashvich_ajax_remove_cart_item_handler' );
+add_action( 'wp_ajax_nopriv_hashvich_remove_cart_item', 'hashvich_ajax_remove_cart_item_handler' );
+
+/**
+ * اعمال کد تخفیف از طریق AJAX
+ */
+function hashvich_ajax_apply_coupon_handler() {
+	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+		wp_send_json_error( array( 'message' => __( 'سبد خرید در دسترس نیست.', 'hashvich' ) ) );
+	}
+
+	$coupon_code = isset( $_POST['coupon_code'] ) ? sanitize_text_field( wp_unslash( $_POST['coupon_code'] ) ) : '';
+
+	if ( empty( $coupon_code ) ) {
+		wp_send_json_error( array( 'message' => __( 'لطفاً کد تخفیف را وارد کنید.', 'hashvich' ) ) );
+	}
+
+	// پاکسازی خطاهای قبلی
+	wc_clear_notices();
+
+	$applied = WC()->cart->apply_coupon( $coupon_code );
+
+	if ( $applied ) {
+		WC()->cart->calculate_totals();
+
+		ob_start();
+		wc_cart_totals_order_total_html();
+		$cart_total_html = ob_get_clean();
+
+		wp_send_json_success(
+			array(
+				'message'    => __( 'کد تخفیف با موفقیت اعمال گردید.', 'hashvich' ),
+				'cart_total' => $cart_total_html,
+			)
+		);
+	} else {
+		$notices = wc_get_notices( 'error' );
+		$msg     = ! empty( $notices ) ? wp_strip_all_tags( $notices[0]['notice'] ) : __( 'کد تخفیف وارد شده معتبر نمی‌باشد.', 'hashvich' );
+		wc_clear_notices();
+		wp_send_json_error( array( 'message' => $msg ) );
+	}
+}
+add_action( 'wp_ajax_hashvich_apply_coupon', 'hashvich_ajax_apply_coupon_handler' );
+add_action( 'wp_ajax_nopriv_hashvich_apply_coupon', 'hashvich_ajax_apply_coupon_handler' );
+
+/**
+ * حذف کد تخفیف از طریق AJAX
+ */
+function hashvich_ajax_remove_coupon_handler() {
+	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+		wp_send_json_error();
+	}
+
+	$coupon_code = isset( $_POST['coupon_code'] ) ? sanitize_text_field( wp_unslash( $_POST['coupon_code'] ) ) : '';
+
+	if ( ! empty( $coupon_code ) ) {
+		WC()->cart->remove_coupon( $coupon_code );
+		WC()->cart->calculate_totals();
+	}
+
+	wp_send_json_success();
+}
+add_action( 'wp_ajax_hashvich_remove_coupon', 'hashvich_ajax_remove_coupon_handler' );
+add_action( 'wp_ajax_nopriv_hashvich_remove_coupon', 'hashvich_ajax_remove_coupon_handler' );
+
+/**
+ * ثبت یا تغییر انعام پیک در نشست کاربر
+ */
+function hashvich_ajax_set_tip_handler() {
+	if ( ! function_exists( 'WC' ) || ! WC()->session ) {
+		wp_send_json_error();
+	}
+
+	$tip = isset( $_POST['tip'] ) ? (float) sanitize_text_field( wp_unslash( $_POST['tip'] ) ) : 0;
+	WC()->session->set( 'hv_courier_tip', $tip );
+	WC()->cart->calculate_totals();
+
+	ob_start();
+	wc_cart_totals_order_total_html();
+	$cart_total_html = ob_get_clean();
+
+	wp_send_json_success(
+		array(
+			'tip'        => $tip,
+			'cart_total' => $cart_total_html,
+		)
+	);
+}
+add_action( 'wp_ajax_hashvich_set_tip', 'hashvich_ajax_set_tip_handler' );
+add_action( 'wp_ajax_nopriv_hashvich_set_tip', 'hashvich_ajax_set_tip_handler' );
+
+/**
+ * تنظیم روش تحویل (پیک یا تحویل حضوری) در نشست کاربر
+ */
+function hashvich_ajax_set_delivery_type_handler() {
+	if ( ! function_exists( 'WC' ) || ! WC()->session ) {
+		wp_send_json_error();
+	}
+
+	$type = isset( $_POST['delivery_type'] ) && 'pickup' === $_POST['delivery_type'] ? 'pickup' : 'delivery';
+	WC()->session->set( 'hv_delivery_type', $type );
+	WC()->cart->calculate_totals();
+
+	ob_start();
+	wc_cart_totals_order_total_html();
+	$cart_total_html = ob_get_clean();
+
+	wp_send_json_success(
+		array(
+			'delivery_type' => $type,
+			'cart_total'    => $cart_total_html,
+		)
+	);
+}
+add_action( 'wp_ajax_hashvich_set_delivery_type', 'hashvich_ajax_set_delivery_type_handler' );
+add_action( 'wp_ajax_nopriv_hashvich_set_delivery_type', 'hashvich_ajax_set_delivery_type_handler' );
+
