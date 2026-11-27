@@ -309,6 +309,8 @@
 		if (val === 'pickup') {
 			$stepAddress.slideUp(200);
 			$stepAddress.find('input[required]').removeAttr('required').attr('data-was-required', 'true');
+			clearFieldError($('#billing_address_1'));
+			clearFieldError($('#billing_city'));
 			$('#hv-summary-shipping').text('رایگان (تحویل حضوری)');
 		} else {
 			$stepAddress.slideDown(200);
@@ -450,31 +452,290 @@
 		$('#place_order_text').text(`ثبت سفارش به مبلغ ${cleanTotal}`);
 	}
 
+	/* ==========================================================
+	 * اعتبارسنجی و نمایش خطای درجا (Inline Field Validation)
+	 * ========================================================== */
+
+	// تبدیل ارقام فارسی و عربی به انگلیسی
+	function normalizeDigits(str) {
+		if (!str) return '';
+		return String(str)
+			.replace(/[۰-۹]/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); })
+			.replace(/[٠-٩]/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); });
+	}
+
+	// پاک کردن کاراکترهای خطرناک HTML
+	function escapeHtml(text) {
+		return $('<div>').text(text).html();
+	}
+
+	// نمایش خطای درون‌برنامه‌ای زیر فیلد و قرمز کردن کادر
+	function showFieldError($field, message) {
+		if (!$field || !$field.length) return;
+
+		$field.addClass('hv-input-error');
+
+		const $wrapper = $field.closest('.flex.flex-col');
+		$wrapper.find('.hv-field-error').remove();
+
+		const errorHtml = `
+			<span class="hv-field-error" role="alert">
+				<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true">
+					<circle cx="12" cy="12" r="10"></circle>
+					<line x1="12" y1="8" x2="12" y2="12"></line>
+					<line x1="12" y1="16" x2="12.01" y2="16"></line>
+				</svg>
+				<span>${escapeHtml(message)}</span>
+			</span>
+		`;
+
+		$field.after(errorHtml);
+	}
+
+	// حذف خطای فیلد به محض شروع تایپ یا تغییر
+	function clearFieldError($field) {
+		if (!$field || !$field.length) return;
+		$field.removeClass('hv-input-error');
+		const $wrapper = $field.closest('.flex.flex-col');
+		const $error = $wrapper.find('.hv-field-error');
+		if ($error.length) {
+			$error.fadeOut(150, function () {
+				$(this).remove();
+			});
+		}
+	}
+
+	// پاک کردن همه خطاهای تسویه‌حساب
+	function clearAllCheckoutErrors() {
+		$('.hv-input-error').removeClass('hv-input-error');
+		$('.hv-field-error').remove();
+		$('.woocommerce-NoticeGroup-checkout, .woocommerce-error').remove();
+	}
+
+	// اسکرول نرم به فیلد دارای خطا با احتساب هدر چسبان
+	function scrollToField($field) {
+		if (!$field || !$field.length) return;
+		const headerHeight = $('.site-header').outerHeight() || 80;
+		const offset = $field.offset().top - headerHeight - 35;
+		$('html, body').stop().animate({
+			scrollTop: Math.max(0, offset)
+		}, 350, function () {
+			$field.focus();
+		});
+	}
+
+	// شنونده زنده: پاک شدن ارور به محض تعامل کاربر با فیلد
+	$(document).on('input change keyup', '#hv-checkout-form input, #hv-checkout-form textarea, #hv-checkout-form select', function () {
+		clearFieldError($(this));
+	});
+
+	// اصلاح خودکار شماره تلفن هنگام خروج از فیلد
+	$(document).on('blur', '#billing_phone', function () {
+		const val = $(this).val();
+		if (val) {
+			$(this).val(normalizeDigits(val).replace(/\s+/g, ''));
+		}
+	});
+
+	// اعتبارسنجی جامع سمت کاربر قبل از ارسال فرم
+	function validateCheckoutFields() {
+		clearAllCheckoutErrors();
+		let isValid = true;
+		let $firstError = null;
+
+		// ۱. بررسی نام
+		const $firstName = $('#billing_first_name');
+		const firstNameVal = $.trim($firstName.val());
+		if (!firstNameVal || firstNameVal.length < 2) {
+			showFieldError($firstName, 'لطفاً نام خود را وارد کنید.');
+			if (!$firstError) $firstError = $firstName;
+			isValid = false;
+		}
+
+		// ۲. بررسی نام خانوادگی
+		const $lastName = $('#billing_last_name');
+		const lastNameVal = $.trim($lastName.val());
+		if (!lastNameVal || lastNameVal.length < 2) {
+			showFieldError($lastName, 'لطفاً نام خانوادگی خود را وارد کنید.');
+			if (!$firstError) $firstError = $lastName;
+			isValid = false;
+		}
+
+		// ۳. بررسی شماره موبایل
+		const $phone = $('#billing_phone');
+		const rawPhone = $.trim($phone.val());
+		const normPhone = normalizeDigits(rawPhone);
+		const phoneRegex = /^(\+98|0)?9\d{9}$/;
+		if (!normPhone) {
+			showFieldError($phone, 'شماره موبایل جهت هماهنگی پیک الزامی است.');
+			if (!$firstError) $firstError = $phone;
+			isValid = false;
+		} else if (!phoneRegex.test(normPhone)) {
+			showFieldError($phone, 'شماره موبایل نامعتبر است (مثال: ۰۹۱۲۳۴۵۶۷۸۹).');
+			if (!$firstError) $firstError = $phone;
+			isValid = false;
+		}
+
+		// ۴. بررسی ایمیل (اختیاری است اما اگر پر شد باید معتبر باشد)
+		const $email = $('#billing_email');
+		if ($email.length) {
+			const emailVal = $.trim($email.val());
+			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			if (emailVal && !emailRegex.test(emailVal)) {
+				showFieldError($email, 'فرمت ایمیل نامعتبر است (مثال: name@example.com).');
+				if (!$firstError) $firstError = $email;
+				isValid = false;
+			}
+		}
+
+		// ۵. بررسی نشانی و شهر در حالت ارسال با پیک
+		const deliveryType = $('input[name="hv_delivery_type"]:checked').val() || 'delivery';
+		if (deliveryType === 'delivery') {
+			const $address = $('#billing_address_1');
+			const addressVal = $.trim($address.val());
+			if (!addressVal || addressVal.length < 5) {
+				showFieldError($address, 'لطفاً نشانی کامل شامل خیابان، کوچه و پلاک را وارد کنید.');
+				if (!$firstError) $firstError = $address;
+				isValid = false;
+			}
+
+			const $city = $('#billing_city');
+			const cityVal = $.trim($city.val());
+			if (!cityVal) {
+				showFieldError($city, 'لطفاً نام شهر را مشخص کنید.');
+				if (!$firstError) $firstError = $city;
+				isValid = false;
+			}
+		}
+
+		// در صورت وجود خطا اسکرول نرم و پیام اعلام می‌شود
+		if (!isValid && $firstError) {
+			scrollToField($firstError);
+			showToast('لطفاً خطاهای مشخص‌شده در فرم را اصلاح نمایید.', 'error');
+		}
+
+		return isValid;
+	}
+
+	// رهگیری کلیک روی دکمه ثبت سفارش
+	$(document).on('click', '#place_order', function (e) {
+		if (!validateCheckoutFields()) {
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			return false;
+		}
+	});
+
 	// ارسال فرم تسویه‌حساب با اعتبارسنجی
 	$(document).on('submit', '#hv-checkout-form', function (e) {
-		const $form = $(this);
-		const $submitBtn = $('#place_order');
-
-		// بررسی فیلدهای اجباری
-		let hasError = false;
-		$form.find('input[required]').each(function () {
-			if (!$.trim($(this).val())) {
-				$(this).addClass('border-tomato').focus();
-				hasError = true;
-				return false;
-			} else {
-				$(this).removeClass('border-tomato');
-			}
-		});
-
-		if (hasError) {
+		if (!validateCheckoutFields()) {
 			e.preventDefault();
-			showToast(hashvichCartData.i18n.fillRequired, 'error');
+			e.stopImmediatePropagation();
 			return false;
 		}
 
+		const $submitBtn = $('#place_order');
 		$submitBtn.prop('disabled', true).addClass('opacity-70');
-		$('#place_order_text').text(hashvichCartData.i18n.processing);
+		$('#place_order_text').text(hashvichCartData.i18n.processing || 'در حال پردازش...');
+	});
+
+	// تبدیل خطاهای سمت سرور ووکامرس (AJAX) به خطاهای درون فیلدی
+	function handleServerCheckoutErrors(errorHtml) {
+		// حذف کامل باکس سنتی خطای ووکامرس
+		$('.woocommerce-NoticeGroup-checkout, .woocommerce-error').remove();
+
+		// فعال‌سازی مجدد دکمه ثبت
+		const $submitBtn = $('#place_order');
+		$submitBtn.prop('disabled', false).removeClass('opacity-70');
+		const origText = $submitBtn.attr('data-value') || 'ثبت سفارش';
+		$('#place_order_text').text(origText);
+
+		if (!errorHtml) return;
+
+		const $temp = $('<div>').html(errorHtml);
+		const $items = $temp.find('li');
+		let hasFieldErrors = false;
+		let $firstError = null;
+		const unhandledMessages = [];
+
+		$items.each(function () {
+			const text = $.trim($(this).text());
+
+			let matched = false;
+			if (text.includes('نام خانوادگی')) {
+				const $f = $('#billing_last_name');
+				showFieldError($f, 'لطفاً نام خانوادگی خود را وارد نمایید.');
+				if (!$firstError) $firstError = $f;
+				matched = true;
+			} else if (text.includes('نام') && !text.includes('خانوادگی')) {
+				const $f = $('#billing_first_name');
+				showFieldError($f, 'لطفاً نام خود را وارد نمایید.');
+				if (!$firstError) $firstError = $f;
+				matched = true;
+			} else if (text.includes('تلفن') || text.includes('موبایل') || text.includes('شماره')) {
+				const $f = $('#billing_phone');
+				showFieldError($f, 'شماره موبایل الزامی و باید معتبر باشد.');
+				if (!$firstError) $firstError = $f;
+				matched = true;
+			} else if (text.includes('خیابان') || text.includes('نشانی') || text.includes('آدرس')) {
+				const $f = $('#billing_address_1');
+				showFieldError($f, 'نشانی کامل جهت ارسال سفارش الزامی است.');
+				if (!$firstError) $firstError = $f;
+				matched = true;
+			} else if (text.includes('شهر')) {
+				const $f = $('#billing_city');
+				showFieldError($f, 'نام شهر تحویل الزامی است.');
+				if (!$firstError) $firstError = $f;
+				matched = true;
+			} else if (text.includes('ایمیل') || text.includes('رایانامه')) {
+				const $f = $('#billing_email');
+				showFieldError($f, 'ایمیل وارد شده معتبر نیست.');
+				if (!$firstError) $firstError = $f;
+				matched = true;
+			} else if (text.includes('کد پستی') || text.includes('کدپستی')) {
+				const $f = $('#billing_postcode');
+				showFieldError($f, 'کد پستی معتبر نیست.');
+				if (!$firstError) $firstError = $f;
+				matched = true;
+			}
+
+			if (matched) {
+				hasFieldErrors = true;
+			} else if (text) {
+				unhandledMessages.push(text);
+			}
+		});
+
+		if (hasFieldErrors && $firstError) {
+			scrollToField($firstError);
+			showToast('لطفاً فیلدهای مشخص شده با رنگ قرمز را بررسی و تکمیل نمایید.', 'error');
+		}
+
+		if (unhandledMessages.length > 0) {
+			unhandledMessages.forEach(function (msg) {
+				showToast(msg, 'error');
+			});
+		}
+	}
+
+	// شنود رویداد checkout_error ووکامرس
+	$(document.body).on('checkout_error', function (event, errorMessages) {
+		$('html, body').stop();
+		handleServerCheckoutErrors(errorMessages);
+	});
+
+	// رهگیری پاسخ‌های ایجکس ووکامرس جهت اطمینان صد درصدی
+	$(document).ajaxComplete(function (event, xhr, settings) {
+		if (settings && settings.url && (settings.url.indexOf('checkout') !== -1 || settings.url.indexOf('wc-ajax=checkout') !== -1)) {
+			try {
+				const res = xhr.responseJSON;
+				if (res && res.result === 'failure' && res.messages) {
+					setTimeout(function () {
+						handleServerCheckoutErrors(res.messages);
+					}, 20);
+				}
+			} catch (e) {}
+		}
 	});
 
 })(jQuery);

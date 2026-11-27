@@ -202,6 +202,58 @@ Requires PHP: 8.0
 	margin-bottom: 2rem !important;
 }
 
+/* ==========================================================
+ * اعتبارسنجی فیلدهای تسویه‌حساب (Inline Field Validation)
+ * ========================================================== */
+
+/* مخفی‌سازی لیست پیش‌فرض و سنتی خطاهای ووکامرس در بالای فرم پرداخت */
+.woocommerce-NoticeGroup-checkout,
+#hv-checkout-form .woocommerce-NoticeGroup,
+#hv-checkout-form .woocommerce-error,
+.woocommerce-checkout .woocommerce-notices-wrapper .woocommerce-error {
+	display: none !important;
+}
+
+/* استایل کادر قرمز و برجسته برای فیلد دارای خطا */
+.hv-input-error,
+input.hv-input-error,
+textarea.hv-input-error,
+select.hv-input-error {
+	border-color: #c03d17 !important;
+	box-shadow: 0 0 0 3px rgba(192, 61, 23, 0.15) !important;
+	background-color: #fffaf9 !important;
+}
+
+/* پیام خطای ظریف و ریز زیر فیلد */
+.hv-field-error {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.8125rem;
+	font-weight: 500;
+	color: #c03d17;
+	margin-top: 0.375rem;
+	line-height: 1.4;
+	animation: hvErrorFadeIn 0.2s ease-out;
+}
+
+.hv-field-error svg {
+	flex-shrink: 0;
+	width: 14px;
+	height: 14px;
+}
+
+@keyframes hvErrorFadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
 /* یوتیلیتی‌های پدینگ جهت اطمینان از اعمال در تمامی برگه‌ها */
 .py-8 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
 .py-10 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
