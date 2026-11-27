@@ -101,8 +101,87 @@ add_action(
 				)
 			);
 		}
+
+		// ۷. اسکریپت تعاملی صفحه منو و کاتالوگ فروشگاه
+		$is_menu_catalog = is_page( 'menu' ) || is_page_template( 'page-menu.php' ) || ( function_exists( 'is_shop' ) && is_shop() ) || ( function_exists( 'is_product_taxonomy' ) && is_product_taxonomy() );
+		if ( $is_menu_catalog ) {
+			$menu_js_path = $theme_dir . '/assets/js/menu.js';
+			$menu_js_ver  = file_exists( $menu_js_path ) ? (string) filemtime( $menu_js_path ) : HASHVICH_VERSION;
+			wp_enqueue_script( 'hashvich-menu', $theme_uri . '/assets/js/menu.js', array( 'jquery' ), $menu_js_ver, true );
+			wp_localize_script(
+				'hashvich-menu',
+				'hashvichData',
+				array(
+					'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+					'cartUrl'    => function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' ),
+					'addedText'  => __( 'به سبد خرید اضافه شد', 'hashvich' ),
+					'viewCart'   => __( 'مشاهده سبد', 'hashvich' ),
+				)
+			);
+		}
 	}
 );
+
+/**
+ * دریافت آدرس تصویر پیش‌فرض غذاها در صورت عدم بارگذاری تصویر شاخص
+ *
+ * @param string $slug اسلاگ محصول.
+ * @param string $cat_slug اسلاگ دسته‌بندی.
+ * @return string
+ */
+function hashvich_get_dish_image_fallback( $slug = '', $cat_slug = '' ) {
+	$img_dir_uri = get_template_directory_uri() . '/assets/images/photos/';
+	$slug        = strtolower( (string) $slug );
+	$cat_slug    = strtolower( (string) $cat_slug );
+
+	if ( strpos( $slug, 'pizza' ) !== false || 'pizza' === $cat_slug ) {
+		if ( strpos( $slug, 'pepperoni' ) !== false || strpos( $slug, 'spicy' ) !== false || strpos( $slug, 'bbq' ) !== false ) {
+			return $img_dir_uri . 'pizza-pepperoni.webp';
+		}
+		return $img_dir_uri . 'pizza-margherita.webp';
+	}
+	if ( strpos( $slug, 'veggie' ) !== false ) {
+		return $img_dir_uri . 'veggie-burger.webp';
+	}
+	if ( strpos( $slug, 'chicken-burger' ) !== false ) {
+		return $img_dir_uri . 'chicken-burger.webp';
+	}
+	if ( strpos( $slug, 'burger' ) !== false || 'burgers' === $cat_slug ) {
+		return $img_dir_uri . 'burger.webp';
+	}
+	if ( strpos( $slug, 'fries' ) !== false ) {
+		return $img_dir_uri . 'fries.webp';
+	}
+	if ( strpos( $slug, 'hotdog' ) !== false || strpos( $slug, 'hot-dog' ) !== false ) {
+		return $img_dir_uri . 'hotdog.webp';
+	}
+	if ( strpos( $slug, 'bucket' ) !== false || strpos( $slug, 'crispy' ) !== false || strpos( $slug, 'wings' ) !== false ) {
+		return $img_dir_uri . 'wings.webp';
+	}
+	if ( strpos( $slug, 'wrap' ) !== false || 'wraps' === $cat_slug ) {
+		return $img_dir_uri . 'wrap.webp';
+	}
+	if ( strpos( $slug, 'taco' ) !== false ) {
+		return $img_dir_uri . 'tacos.webp';
+	}
+	if ( strpos( $slug, 'salad' ) !== false || 'healthy' === $cat_slug ) {
+		return $img_dir_uri . 'salad.webp';
+	}
+	if ( strpos( $slug, 'soup' ) !== false ) {
+		return $img_dir_uri . 'soup.webp';
+	}
+	if ( strpos( $slug, 'pasta' ) !== false ) {
+		return $img_dir_uri . 'pasta.webp';
+	}
+	if ( strpos( $slug, 'cake' ) !== false || 'desserts' === $cat_slug ) {
+		return $img_dir_uri . 'cake.webp';
+	}
+	if ( strpos( $slug, 'shake' ) !== false || 'drinks' === $cat_slug ) {
+		return $img_dir_uri . 'shake.webp';
+	}
+
+	return $img_dir_uri . 'burger.webp';
+}
 
 /**
  * تبدیل ارقام انگلیسی به فارسی

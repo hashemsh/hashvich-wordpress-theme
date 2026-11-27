@@ -96,3 +96,19 @@ Requires PHP: 8.0
 	font-size: 0.85rem;
 	line-height: 1;
 }
+
+/* ==========================================================================
+   استایل‌های صفحه منو، دکمه‌های علاقه‌مندی و وضعیت فیلترها
+   ========================================================================== */
+.hv-menu-card {
+	will-change: transform, opacity;
+}
+
+.hv-menu-card.hidden {
+	display: none !important;
+}
+
+.hv-fav-btn[aria-pressed="true"] svg {
+	fill: currentColor;
+	color: var(--color-tomato, #c03d17);
+}
