@@ -11,8 +11,8 @@ $img_dir_uri = get_template_directory_uri() . '/assets/images/';
 $cart        = WC()->cart;
 $subtotal    = (float) $cart->get_subtotal();
 
-// حدنصاب ارسال رایگان (۵۰۰٬۰۰۰ تومان)
-$free_shipping_threshold = 500000;
+// حدنصاب ارسال رایگان (۳۲۰٬۰۰۰ تومان مطابق پیکربندی سیستم)
+$free_shipping_threshold = 320000;
 $pct_free_shipping       = min( 100, round( ( $subtotal / $free_shipping_threshold ) * 100 ) );
 $diff_free_shipping      = max( 0, $free_shipping_threshold - $subtotal );
 ?>
@@ -59,7 +59,7 @@ $diff_free_shipping      = max( 0, $free_shipping_threshold - $subtotal );
 					continue;
 				}
 
-				$title     = $_product->get_name();
+				$title     = hashvich_to_persian_num( $_product->get_name() );
 				$permalink = $_product->get_permalink( $cart_item );
 				$quantity  = $cart_item['quantity'];
 
@@ -133,7 +133,7 @@ $diff_free_shipping      = max( 0, $free_shipping_threshold - $subtotal );
 						</div>
 
 						<!-- قیمت کل آیتم -->
-						<span class="font-semibold tabular-nums text-[16px] min-w-[110px] text-left">
+						<span class="font-semibold tabular-nums text-[16px] min-w-[110px] text-center sm:text-left">
 							<?php echo $line_price; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</span>
 

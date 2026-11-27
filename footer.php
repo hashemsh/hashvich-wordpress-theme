@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit;
 				</p>
 				<div class="text-[14px] text-on-forest-muted flex flex-col gap-1">
 					<p><?php esc_html_e( 'تهران، خیابان ولیعصر، نبش کوچه بهار، پلاک ۲۱۸', 'hashvich' ); ?></p>
-					<p><a href="tel:+982188774521" class="inline-flex min-h-8 items-center hover:text-white transition-colors">۰۲۱ ۸۸۷۷ ۴۵۲۱</a></p>
+					<p><a href="tel:+982188774521" class="inline-flex min-h-8 items-center hover:text-white transition-colors tabular-nums" dir="ltr">۰۲۱ ۸۸۷۷ ۴۵۲۱</a></p>
 					<p><a href="mailto:salam@hashvich.ir" class="inline-flex min-h-8 items-center hover:text-white transition-colors">salam@hashvich.ir</a></p>
 				</div>
 			</div>

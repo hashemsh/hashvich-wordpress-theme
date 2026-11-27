@@ -299,8 +299,8 @@ function hashvich_get_dish_excerpt( $product, $words = 14 ) {
  * @return string
  */
 function hashvich_to_persian_num( $number ) {
-	$en = array( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.' );
-	$fa = array( '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '٫' );
+	$en = array( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ',' );
+	$fa = array( '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '٬' );
 	return str_replace( $en, $fa, (string) $number );
 }
 
@@ -339,7 +339,7 @@ add_filter(
 	'woocommerce_add_to_cart_fragments',
 	function ( $fragments ) {
 		$count = ( function_exists( 'WC' ) && is_object( WC()->cart ) ) ? WC()->cart->get_cart_contents_count() : 0;
-		$fragments['span.hv-cart-count'] = '<span class="tabular-nums hv-cart-count">(' . esc_html( $count ) . ')</span>';
+		$fragments['span.hv-cart-count'] = '<span class="tabular-nums hv-cart-count">(' . esc_html( hashvich_to_persian_num( $count ) ) . ')</span>';
 		return $fragments;
 	}
 );
@@ -827,4 +827,63 @@ function hashvich_ajax_set_delivery_type_handler() {
 }
 add_action( 'wp_ajax_hashvich_set_delivery_type', 'hashvich_ajax_set_delivery_type_handler' );
 add_action( 'wp_ajax_nopriv_hashvich_set_delivery_type', 'hashvich_ajax_set_delivery_type_handler' );
+
+/**
+ * تضمین مقداردهی موقعیت مشتری پیش‌فرض برای محاسبه صحیح هزینه ارسال با پیک
+ */
+add_action(
+	'woocommerce_before_calculate_totals',
+	function ( $cart ) {
+		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+			return;
+		}
+		if ( function_exists( 'WC' ) && WC()->customer ) {
+			if ( ! WC()->customer->get_shipping_country() ) {
+				WC()->customer->set_shipping_country( 'IR' );
+				WC()->customer->set_billing_country( 'IR' );
+			}
+		}
+	},
+	5
+);
+
+/**
+ * مدیریت هوشمند نرخ‌های ارسال: تحویل حضوری و ارسال رایگان بالای ۳۲۰ هزار تومان
+ */
+function hashvich_custom_package_rates( $rates, $package ) {
+	$delivery_type = ( function_exists( 'WC' ) && WC()->session && WC()->session->get( 'hv_delivery_type' ) === 'pickup' ) ? 'pickup' : 'delivery';
+
+	if ( 'pickup' === $delivery_type ) {
+		foreach ( $rates as $rate_id => $rate ) {
+			if ( 'flat_rate' === $rate->method_id ) {
+				unset( $rates[ $rate_id ] );
+			}
+		}
+		return $rates;
+	}
+
+	$subtotal = function_exists( 'WC' ) && WC()->cart ? (float) WC()->cart->get_subtotal() : 0;
+	if ( $subtotal >= 320000 ) {
+		$free_rates = array();
+		foreach ( $rates as $rate_id => $rate ) {
+			if ( 'free_shipping' === $rate->method_id ) {
+				$free_rates[ $rate_id ] = $rate;
+			}
+		}
+		if ( ! empty( $free_rates ) ) {
+			return $free_rates;
+		}
+	} else {
+		foreach ( $rates as $rate_id => $rate ) {
+			if ( 'free_shipping' === $rate->method_id ) {
+				unset( $rates[ $rate_id ] );
+			}
+		}
+	}
+
+	return $rates;
+}
+add_filter( 'woocommerce_package_rates', 'hashvich_custom_package_rates', 100, 2 );
+
+
 

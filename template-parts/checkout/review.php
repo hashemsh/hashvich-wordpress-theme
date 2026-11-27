@@ -92,7 +92,7 @@ $applied_coupons = WC()->cart->get_applied_coupons();
 							<p class="text-[13px] text-muted mt-1">
 								<?php
 								/* translators: %s: item quantity */
-								printf( esc_html__( 'تعداد %s', 'hashvich' ), esc_html( $cart_item['quantity'] ) );
+								printf( esc_html__( 'تعداد %s', 'hashvich' ), esc_html( hashvich_to_persian_num( $cart_item['quantity'] ) ) );
 								?>
 							</p>
 						</div>
@@ -117,7 +117,7 @@ $applied_coupons = WC()->cart->get_applied_coupons();
 						<span>
 							<?php
 							/* translators: %s: amount remaining */
-							printf( esc_html__( '%s تومان تا ارسال رایگان پیک', 'hashvich' ), number_format( $remaining ) );
+							printf( esc_html__( '%s تومان تا ارسال رایگان پیک', 'hashvich' ), hashvich_to_persian_num( number_format( $remaining ) ) );
 							?>
 						</span>
 					</p>
@@ -175,10 +175,20 @@ $applied_coupons = WC()->cart->get_applied_coupons();
 				<dt class="text-muted"><?php esc_html_e( 'ارسال', 'hashvich' ); ?></dt>
 				<dd class="tabular-nums font-medium text-leaf" id="hv-summary-shipping">
 					<?php
-					if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) {
-						wc_cart_totals_shipping_html();
-					} else {
+					$cart_subtotal_raw = (float) WC()->cart->get_subtotal();
+					$delivery_type     = ( WC()->session && 'pickup' === WC()->session->get( 'hv_delivery_type' ) ) ? 'pickup' : 'delivery';
+
+					if ( 'pickup' === $delivery_type ) {
+						esc_html_e( 'تحویل حضوری (رایگان)', 'hashvich' );
+					} elseif ( $cart_subtotal_raw >= 320000 ) {
 						esc_html_e( 'رایگان', 'hashvich' );
+					} else {
+						$shipping_cost = (float) WC()->cart->get_shipping_total();
+						if ( $shipping_cost > 0 ) {
+							echo hashvich_format_price( $shipping_cost );
+						} else {
+							echo hashvich_format_price( 35000 );
+						}
 					}
 					?>
 				</dd>

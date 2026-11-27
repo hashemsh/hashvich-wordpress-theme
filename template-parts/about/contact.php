@@ -72,14 +72,18 @@ defined( 'ABSPATH' ) || exit;
 
 			<div class="flex flex-col gap-1.5">
 				<label for="contact_subject" class="text-[14px] font-medium text-ink"><?php esc_html_e( 'موضوع پیام', 'hashvich' ); ?></label>
-				<select class="w-full rounded-[var(--radius-sm)] border-[1.5px] border-line-strong bg-white px-4 text-[14px] text-ink focus:border-leaf focus:outline-none h-11"
-						id="contact_subject"
-						name="contact_subject">
-					<option value="order"><?php esc_html_e( 'پیگیری یا سوال درباره سفارش', 'hashvich' ); ?></option>
-					<option value="catering"><?php esc_html_e( 'سفارش سازمانی و مهمانی‌ها', 'hashvich' ); ?></option>
-					<option value="feedback"><?php esc_html_e( 'انتقاد یا پیشنهاد کیفیت', 'hashvich' ); ?></option>
-					<option value="cooperation"><?php esc_html_e( 'همکاری کاری یا تامین مواد اولیه', 'hashvich' ); ?></option>
-				</select>
+				<div class="relative">
+					<select class="w-full rounded-[var(--radius-sm)] border-[1.5px] border-line-strong bg-white pr-4 pl-10 text-[14px] text-ink focus:border-leaf focus:outline-none h-11 appearance-none"
+							style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;"
+							id="contact_subject"
+							name="contact_subject">
+						<option value="order"><?php esc_html_e( 'پیگیری یا سوال درباره سفارش', 'hashvich' ); ?></option>
+						<option value="catering"><?php esc_html_e( 'سفارش سازمانی و مهمانی‌ها', 'hashvich' ); ?></option>
+						<option value="feedback"><?php esc_html_e( 'انتقاد یا پیشنهاد کیفیت', 'hashvich' ); ?></option>
+						<option value="cooperation"><?php esc_html_e( 'همکاری کاری یا تامین مواد اولیه', 'hashvich' ); ?></option>
+					</select>
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+				</div>
 			</div>
 
 			<div class="flex flex-col gap-1.5">

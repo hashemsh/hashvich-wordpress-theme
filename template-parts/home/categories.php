@@ -68,10 +68,12 @@ $categories = array(
 
 // همگام‌سازی با دسته‌بندی‌های واقعی ووکامرس در صورت وجود
 if ( taxonomy_exists( 'product_cat' ) ) {
-	$wc_terms = get_terms(
+	$default_cat = (int) get_option( 'default_product_cat' );
+	$wc_terms    = get_terms(
 		array(
 			'taxonomy'   => 'product_cat',
-			'hide_empty' => false,
+			'hide_empty' => true,
+			'exclude'    => array( $default_cat ),
 			'number'     => 6,
 		)
 	);
@@ -126,8 +128,8 @@ if ( taxonomy_exists( 'product_cat' ) ) {
 					<li class="shrink-0 lg:absolute <?php echo esc_attr( $pos_class ); ?>">
 						<div>
 							<a class="flex w-[150px] flex-col items-center gap-2 rounded-[var(--radius-md)] px-3 py-5 text-center shadow-[var(--shadow-card)] transition-[transform,background-color,box-shadow] duration-[var(--duration-base)] ease-[var(--ease-out)] hov:-translate-y-1 hov:shadow-[var(--shadow-float)] prs:translate-y-0 bg-white text-ink" href="<?php echo esc_url( $cat['url'] ); ?>" data-discover="true">
-								<span class="round flex size-14 items-center justify-center rounded-full transition-colors bg-card">
-									<img alt="<?php echo esc_attr( $cat['name'] ); ?>" class="select-none object-contain size-9" draggable="false" loading="lazy" decoding="async" src="<?php echo esc_url( $photo_url ); ?>">
+								<span class="round flex size-14 items-center justify-center rounded-full transition-colors bg-leaf/10">
+									<img alt="<?php echo esc_attr( $cat['name'] ); ?>" class="select-none object-contain size-11 drop-shadow-sm transition-transform duration-300 hover:scale-110" draggable="false" loading="lazy" decoding="async" src="<?php echo esc_url( $photo_url ); ?>">
 								</span>
 								<span class="text-[15px] leading-tight font-semibold"><?php echo esc_html( $cat['name'] ); ?></span>
 								<span class="text-[12px] text-muted"><?php echo esc_html( $count_fa ); ?> <?php esc_html_e( 'غذا', 'hashvich' ); ?></span>

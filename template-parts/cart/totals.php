@@ -26,16 +26,18 @@ $menu_url = home_url( '/menu/' );
 				</dd>
 			</div>
 
-			<?php if ( $cart->needs_shipping() && $cart->show_shipping() ) : ?>
+			<?php if ( $cart->needs_shipping() ) : ?>
 				<div class="flex items-baseline justify-between gap-4">
 					<dt class="text-muted"><?php esc_html_e( 'هزینه ارسال', 'hashvich' ); ?></dt>
 					<dd class="tabular-nums font-medium" id="hv-summary-shipping">
 						<?php
 						$shipping_total = (float) $cart->get_shipping_total();
-						if ( $shipping_total <= 0 ) {
+						if ( $shipping_total > 0 ) {
+							echo hashvich_format_price( $shipping_total );
+						} elseif ( (float) $cart->get_subtotal() >= 320000 ) {
 							esc_html_e( 'رایگان', 'hashvich' );
 						} else {
-							echo hashvich_format_price( $shipping_total );
+							echo hashvich_format_price( 35000 );
 						}
 						?>
 					</dd>

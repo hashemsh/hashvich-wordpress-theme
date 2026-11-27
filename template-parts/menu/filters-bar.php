@@ -53,14 +53,14 @@ $total_products = isset( $args['total_products'] ) ? (int) $args['total_products
 		<label for="menu-sort" class="sr-only"><?php esc_html_e( 'ترتیب نمایش', 'hashvich' ); ?></label>
 		<div class="w-[210px]">
 			<div class="relative">
-				<select id="menu-sort" class="w-full rounded-[var(--radius-sm)] border-[1.5px] border-line-strong bg-white px-4 text-[15px] text-ink placeholder:text-faint transition-[border-color,box-shadow] duration-[var(--duration-fast)] hov:border-muted focus:border-leaf focus:outline-none focus-visible:outline-none focus:shadow-[0_0_0_4px_rgb(23_96_60/0.15)] h-12 appearance-none pr-10">
+				<select id="menu-sort" class="w-full rounded-[var(--radius-sm)] border-[1.5px] border-line-strong bg-white pr-4 pl-10 text-[14px] text-ink placeholder:text-faint transition-[border-color,box-shadow] duration-[var(--duration-fast)] hov:border-muted focus:border-leaf focus:outline-none focus-visible:outline-none focus:shadow-[0_0_0_4px_rgb(23_96_60/0.15)] h-11 appearance-none" style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;">
 					<option value="popular"><?php esc_html_e( 'محبوب‌ترین', 'hashvich' ); ?></option>
 					<option value="rating"><?php esc_html_e( 'بهترین امتیاز', 'hashvich' ); ?></option>
 					<option value="price-asc"><?php esc_html_e( 'قیمت: ارزان به گران', 'hashvich' ); ?></option>
 					<option value="price-desc"><?php esc_html_e( 'قیمت: گران به ارزان', 'hashvich' ); ?></option>
 					<option value="fastest"><?php esc_html_e( 'سریع‌ترین', 'hashvich' ); ?></option>
 				</select>
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down pointer-events-none absolute top-1/2 right-3.5 size-4 -translate-y-1/2 text-muted" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
 			</div>
 		</div>
 	</div>

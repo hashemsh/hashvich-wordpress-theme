@@ -64,7 +64,7 @@
 						<path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path>
 					</svg>
 					<span class="hidden sm:inline"><?php esc_html_e( 'سبد خرید', 'hashvich' ); ?></span>
-					<span class="tabular-nums hv-cart-count">(<?php echo esc_html( $cart_count ); ?>)</span>
+					<span class="tabular-nums hv-cart-count">(<?php echo esc_html( hashvich_to_persian_num( $cart_count ) ); ?>)</span>
 				</a>
 
 				<?php

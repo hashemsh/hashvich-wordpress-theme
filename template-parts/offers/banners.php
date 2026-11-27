@@ -60,14 +60,14 @@ $menu_url    = home_url( '/menu/' );
 
 		<!-- ستون چپ: بنر بزرگ کمبو و مهمانی -->
 		<article class="relative isolate flex min-h-[460px] overflow-hidden rounded-[var(--radius-lg)] bg-forest p-8 md:p-10 text-white shadow-md">
-			<div class="relative z-10 flex max-w-[62%] flex-col">
+			<div class="relative z-10 flex max-w-[54%] flex-col">
 				<span class="inline-flex items-center gap-2 rounded-full bg-sun px-3.5 py-1 text-[13px] font-bold text-ink w-fit">
 					<?php esc_html_e( 'پیشنهاد طلایی سرآشپز', 'hashvich' ); ?>
 				</span>
 				<h3 class="mt-6 text-[clamp(1.8rem,1.2rem+2vw,2.8rem)] leading-[1.15] font-bold">
 					<?php esc_html_e( 'کمبوهای چندنفره هاشویچ', 'hashvich' ); ?>
 				</h3>
-				<p class="mt-4 text-[16px] leading-relaxed text-on-forest-muted">
+				<p class="mt-4 text-[15px] leading-relaxed text-on-forest-muted">
 					<?php esc_html_e( 'برگر دوبل با پنیر گودا، سیب‌زمینی دیپ چیز، شیک غلیظ توت‌فرنگی با ۲۰٪ تخفیف اقتصادی برای جمع‌های دوستانه و خانوادگی.', 'hashvich' ); ?>
 				</p>
 				<div class="mt-auto pt-8">
@@ -78,7 +78,7 @@ $menu_url    = home_url( '/menu/' );
 					</a>
 				</div>
 			</div>
-			<img alt="<?php esc_attr_e( 'کمبو دوبل برگر', 'hashvich' ); ?>" class="pointer-events-none absolute -bottom-6 left-0 max-h-[70%] w-[48%] select-none object-contain drop-shadow-2xl" loading="lazy" decoding="async" src="<?php echo esc_url( $img_dir_uri . 'photos/burger-stack.webp' ); ?>">
+			<img alt="<?php esc_attr_e( 'کمبو دوبل برگر', 'hashvich' ); ?>" class="pointer-events-none absolute -bottom-6 -left-4 max-h-[75%] w-[44%] select-none object-contain drop-shadow-2xl" loading="lazy" decoding="async" src="<?php echo esc_url( $img_dir_uri . 'photos/burger-stack.webp' ); ?>">
 		</article>
 	</div>
 </section>

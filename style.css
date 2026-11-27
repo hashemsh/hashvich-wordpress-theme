@@ -338,3 +338,48 @@ select.hv-input-error {
 	.lg\:py-16 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
 	.lg\:py-20 { padding-top: 5rem !important; padding-bottom: 5rem !important; }
 }
+
+/* ریست کامل و حذف فلش پیش‌فرض مرورگر در تمامی تگ‌های select */
+select,
+select.appearance-none,
+#menu-sort,
+#hv_delivery_time,
+#contact_subject,
+.hv-select-custom {
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	appearance: none !important;
+	background-image: none !important;
+}
+
+select::-ms-expand {
+	display: none !important;
+}
+
+/* حذف ضربدر پیش‌فرض مرورگرهای بر پایه کرومیوم و وب‌کیت در باکس جستجو */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+	-webkit-appearance: none !important;
+	display: none !important;
+}
+
+/* یکنواخت‌سازی ابعاد تصاویر شاخص غذاها و جلوگیری از به هم ریختگی ارتفاع کارت‌ها */
+.hv-dish-image-box {
+	max-height: 9rem;
+	width: auto;
+	object-fit: contain;
+}
+
+/* حذف بردرهای پیش‌فرض تکراری ووکامرس در فرم ورود و ثبت‌نام */
+.woocommerce-form-login,
+.woocommerce-form-register,
+form.login,
+form.register {
+	border: none !important;
+	padding: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+}
+

@@ -44,7 +44,7 @@ $img_dir_uri = get_template_directory_uri() . '/assets/images/photos/';
 				$deals_query->the_post();
 				global $product;
 
-				$dish_title = get_the_title();
+				$dish_title = hashvich_to_persian_num( get_the_title() );
 				$dish_link  = get_permalink();
 				$thumb_id   = $product->get_image_id();
 				$image_url  = $thumb_id ? wp_get_attachment_image_url( $thumb_id, 'medium' ) : '';

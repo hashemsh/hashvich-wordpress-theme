@@ -29,7 +29,7 @@ $img_dir_uri = get_template_directory_uri() . '/assets/images/';
 	if ( ! empty( $products ) ) :
 		foreach ( $products as $product ) :
 			$product_id   = $product->get_id();
-			$title        = $product->get_name();
+			$title        = hashvich_to_persian_num( $product->get_name() );
 			$permalink    = $product->get_permalink();
 			$price        = (float) $product->get_price();
 			$reg_price    = (float) $product->get_regular_price();
@@ -140,7 +140,7 @@ $img_dir_uri = get_template_directory_uri() . '/assets/images/';
 				</div>
 
 				<div class="flex aspect-[16/10] items-center justify-center">
-					<img alt="<?php echo esc_attr( $title ); ?>" class="select-none object-contain h-full w-auto max-w-[78%] transition-transform duration-[var(--duration-slow)] ease-[var(--ease-out)] group-hover:scale-[1.06] group-hover:-rotate-2" draggable="false" loading="lazy" decoding="async" src="<?php echo esc_url( $image_url ); ?>">
+					<img alt="<?php echo esc_attr( $title ); ?>" class="select-none object-contain h-full w-auto max-w-[78%] max-h-36 transition-transform duration-[var(--duration-slow)] ease-[var(--ease-out)] group-hover:scale-[1.06] group-hover:-rotate-2" draggable="false" loading="lazy" decoding="async" src="<?php echo esc_url( $image_url ); ?>">
 				</div>
 
 				<h3 class="mt-4 text-[18px] leading-snug font-semibold">

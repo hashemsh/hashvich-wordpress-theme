@@ -158,7 +158,8 @@ $email        = $current_user->exists() ? $current_user->user_email : '';
 		<div class="flex flex-col gap-1.5">
 			<label for="hv_delivery_time" class="text-[14px] font-medium"><?php esc_html_e( 'انتخاب زمان', 'hashvich' ); ?></label>
 			<div class="relative">
-				<select class="w-full rounded-[var(--radius-sm)] border-[1.5px] border-line-strong bg-white px-4 text-[15px] text-ink focus:border-leaf focus:outline-none h-12 appearance-none pr-10"
+				<select class="w-full rounded-[var(--radius-sm)] border-[1.5px] border-line-strong bg-white pr-4 pl-10 text-[14px] text-ink focus:border-leaf focus:outline-none h-11 appearance-none"
+						style="-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;"
 						name="hv_delivery_time"
 						id="hv_delivery_time">
 					<option value="asap"><?php esc_html_e( 'در اسرع وقت (۲۵ تا ۳۵ دقیقه)', 'hashvich' ); ?></option>
@@ -170,7 +171,7 @@ $email        = $current_user->exists() ? $current_user->user_email : '';
 					<option value="20:30"><?php esc_html_e( 'امروز ساعت ۲۰:۳۰', 'hashvich' ); ?></option>
 					<option value="21:00"><?php esc_html_e( 'امروز ساعت ۲۱:۰۰', 'hashvich' ); ?></option>
 				</select>
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down pointer-events-none absolute top-1/2 right-3.5 size-4 -translate-y-1/2 text-muted" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
 			</div>
 		</div>
 	</section>

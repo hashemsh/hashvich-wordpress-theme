@@ -80,7 +80,7 @@ defined( 'ABSPATH' ) || exit;
 				</div>
 				<div class="pt-4 md:pt-0 hv-process-stat-card">
 					<dt class="text-[13px] text-muted"><?php esc_html_e( 'رضایت خریداران', 'hashvich' ); ?></dt>
-					<dd class="hv-process-stat-num">
+					<dd class="hv-process-stat-num" dir="ltr">
 						<span class="tabular-nums">۴.۸</span>
 						<span class="text-sun text-[18px]">★</span>
 					</dd>
@@ -88,7 +88,7 @@ defined( 'ABSPATH' ) || exit;
 				<div class="pt-4 md:pt-0 hv-process-stat-card">
 					<dt class="text-[13px] text-muted"><?php esc_html_e( 'سفارش در هفته', 'hashvich' ); ?></dt>
 					<dd class="hv-process-stat-num" dir="ltr">
-						<span class="text-forest font-bold">+</span><span class="tabular-nums">۱٬۵۰۰</span>
+						<span class="tabular-nums"><span class="text-forest font-bold">+</span>۱٬۵۰۰</span>
 					</dd>
 				</div>
 				<div class="pt-4 md:pt-0 hv-process-stat-card">
