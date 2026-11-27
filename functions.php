@@ -79,8 +79,56 @@ add_action(
 		$header_js_path = $theme_dir . '/assets/js/header.js';
 		$header_js_ver  = file_exists( $header_js_path ) ? (string) filemtime( $header_js_path ) : HASHVICH_VERSION;
 		wp_enqueue_script( 'hashvich-header', $theme_uri . '/assets/js/header.js', array(), $header_js_ver, true );
+
+		// ۵. فعال‌سازی اسکریپت آژاکس سبد خرید ووکامرس در تمامی صفحات
+		if ( function_exists( 'WC' ) ) {
+			wp_enqueue_script( 'wc-add-to-cart' );
+		}
+
+		// ۶. اسکریپت تعاملی صفحه اصلی
+		if ( is_front_page() || is_home() ) {
+			$home_js_path = $theme_dir . '/assets/js/home.js';
+			$home_js_ver  = file_exists( $home_js_path ) ? (string) filemtime( $home_js_path ) : HASHVICH_VERSION;
+			wp_enqueue_script( 'hashvich-home', $theme_uri . '/assets/js/home.js', array( 'jquery' ), $home_js_ver, true );
+			wp_localize_script(
+				'hashvich-home',
+				'hashvichData',
+				array(
+					'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+					'cartUrl'    => function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' ),
+					'addedText'  => __( 'به سبد خرید اضافه شد', 'hashvich' ),
+					'viewCart'   => __( 'مشاهده سبد', 'hashvich' ),
+				)
+			);
+		}
 	}
 );
+
+/**
+ * تبدیل ارقام انگلیسی به فارسی
+ *
+ * @param mixed $number عدد یا رشته حاوی ارقام.
+ * @return string
+ */
+function hashvich_to_persian_num( $number ) {
+	$en = array( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.' );
+	$fa = array( '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '٫' );
+	return str_replace( $en, $fa, (string) $number );
+}
+
+/**
+ * قالب‌بندی قیمت به تومان با ارقام فارسی
+ *
+ * @param float|int|string $price قیمت خام.
+ * @return string
+ */
+function hashvich_format_price( $price ) {
+	if ( function_exists( 'wc_price' ) && function_exists( 'get_woocommerce_currency' ) ) {
+		return wc_price( $price );
+	}
+	$formatted = number_format( (float) $price, 0, '.', '٬' );
+	return hashvich_to_persian_num( $formatted ) . ' تومان';
+}
 
 /**
  * تنظیم کلاس‌های پایه برای تگ body
