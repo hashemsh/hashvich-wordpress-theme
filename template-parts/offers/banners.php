@@ -78,7 +78,7 @@ $menu_url    = home_url( '/menu/' );
 					</a>
 				</div>
 			</div>
-			<img alt="" class="pointer-events-none absolute -bottom-6 left-0 max-h-[70%] w-[48%] select-none object-contain drop-shadow-2xl" loading="lazy" decoding="async" src="<?php echo esc_url( $img_dir_uri . 'photos/burger-hero.webp' ); ?>">
+			<img alt="<?php esc_attr_e( 'کمبو دوبل برگر', 'hashvich' ); ?>" class="pointer-events-none absolute -bottom-6 left-0 max-h-[70%] w-[48%] select-none object-contain drop-shadow-2xl" loading="lazy" decoding="async" src="<?php echo esc_url( $img_dir_uri . 'photos/burger-stack.webp' ); ?>">
 		</article>
 	</div>
 </section>

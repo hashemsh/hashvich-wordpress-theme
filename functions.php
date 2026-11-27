@@ -254,6 +254,43 @@ function hashvich_get_dish_image_fallback( $slug = '', $cat_slug = '' ) {
 }
 
 /**
+ * دریافت توضیحات خلاصه و جذاب غذا برای کارت‌ها با متن پیش‌فرض در صورت خالی بودن
+ *
+ * @param WC_Product|object $product شیء محصول ووکامرس.
+ * @param int               $words تعداد کلمات مجاز.
+ * @return string
+ */
+function hashvich_get_dish_excerpt( $product, $words = 14 ) {
+	if ( ! $product ) {
+		return '';
+	}
+	$desc = '';
+	if ( is_object( $product ) && method_exists( $product, 'get_short_description' ) ) {
+		$desc = wp_strip_all_tags( $product->get_short_description() );
+	}
+	if ( empty( $desc ) && is_object( $product ) && method_exists( $product, 'get_description' ) ) {
+		$desc = wp_strip_all_tags( $product->get_description() );
+	}
+	if ( empty( $desc ) ) {
+		$slug = is_object( $product ) && method_exists( $product, 'get_slug' ) ? $product->get_slug() : '';
+		if ( strpos( $slug, 'burger' ) !== false ) {
+			$desc = __( 'گوشت گرم گوساله گریل‌شده، پنیر گودای کش‌دار، نان بریوش تازه و سس مخصوص سرآشپز.', 'hashvich' );
+		} elseif ( strpos( $slug, 'pizza' ) !== false ) {
+			$desc = __( 'خمیر دست‌ساز تخمیری ناپلی، سس گوجه تازه سن‌مارزانو، پنیر موزارلا و ریحان معطر.', 'hashvich' );
+		} elseif ( strpos( $slug, 'shake' ) !== false ) {
+			$desc = __( 'بستنی خامه‌ای اعلا، میوه طبیعی تازه و غلظت عالی مخصوص روزهای گرم.', 'hashvich' );
+		} elseif ( strpos( $slug, 'fries' ) !== false ) {
+			$desc = __( 'سیب‌زمینی برشته و داغ همراه با دیپ پنیر چدار دست‌ساز و ادویه مخصوص هاشویچ.', 'hashvich' );
+		} elseif ( strpos( $slug, 'salad' ) !== false ) {
+			$desc = __( 'سبزیجات تازه مزرعه، گوجه گیلاسی، پنیر فتا و سس بالزامیک یا لیمو روغن زیتون.', 'hashvich' );
+		} else {
+			$desc = __( 'آماده‌شده از تازه‌ترین مواد اولیه روز با دستور پخت اختصاصی آشپزخانه هاشویچ.', 'hashvich' );
+		}
+	}
+	return wp_trim_words( $desc, $words, '...' );
+}
+
+/**
  * تبدیل ارقام انگلیسی به فارسی
  *
  * @param mixed $number عدد یا رشته حاوی ارقام.

@@ -89,19 +89,19 @@ $img_dir_uri = get_template_directory_uri() . '/assets/images/photos/';
 									<?php echo esc_html( $dish_title ); ?>
 								</a>
 							</h3>
-							<p class="mt-1 text-[13px] text-muted line-clamp-2">
-								<?php echo esc_html( wp_strip_all_tags( get_the_excerpt() ) ); ?>
+							<p class="mt-1 text-[13px] leading-relaxed text-muted line-clamp-2">
+								<?php echo esc_html( hashvich_get_dish_excerpt( $product ) ); ?>
 							</p>
 						</div>
 
 						<div class="mt-4 flex items-center justify-between border-t border-line/50 pt-3">
 							<div class="flex flex-col">
 								<span class="text-[16px] font-bold text-forest tabular-nums">
-									<?php echo esc_html( hashvich_format_price( $sale_price ?: $cur_price ) ); ?>
+									<?php echo wp_kses_post( hashvich_format_price( $sale_price ?: $cur_price ) ); ?>
 								</span>
 								<?php if ( $reg_price > $sale_price ) : ?>
 									<span class="text-[13px] text-muted line-through tabular-nums">
-										<?php echo esc_html( hashvich_format_price( $reg_price ) ); ?>
+										<?php echo wp_kses_post( hashvich_format_price( $reg_price ) ); ?>
 									</span>
 								<?php endif; ?>
 							</div>

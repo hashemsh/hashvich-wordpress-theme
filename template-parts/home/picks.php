@@ -136,6 +136,10 @@ $menu_url    = home_url( '/menu/' );
 							<?php echo esc_html( $prep_time ); ?> دقیقه <span aria-hidden="true">|</span><span class="sr-only">،</span> <?php echo esc_html( $calories ); ?> کیلوکالری
 						</span>
 
+						<p class="mt-2 text-[13px] leading-relaxed text-muted/90 line-clamp-2">
+							<?php echo esc_html( hashvich_get_dish_excerpt( $product ) ); ?>
+						</p>
+
 						<div class="mt-4 flex items-center justify-between">
 							<span class="inline-flex items-baseline gap-2">
 								<span class="font-semibold tabular-nums text-[20px]"><?php echo hashvich_format_price( $price ); ?></span>
@@ -257,6 +261,13 @@ $menu_url    = home_url( '/menu/' );
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock size-3.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
 							<?php echo esc_html( $item['time'] ); ?> دقیقه <span aria-hidden="true">|</span><span class="sr-only">،</span> <?php echo esc_html( $item['calories'] ); ?> کیلوکالری
 						</span>
+
+						<p class="mt-2 text-[13px] leading-relaxed text-muted/90 line-clamp-2">
+							<?php
+							$mock_desc = isset( $item['desc'] ) ? $item['desc'] : 'آماده‌شده از تازه‌ترین مواد اولیه روز با دستور پخت اختصاصی آشپزخانه هاشویچ.';
+							echo esc_html( $mock_desc );
+							?>
+						</p>
 
 						<div class="mt-4 flex items-center justify-between">
 							<span class="inline-flex items-baseline gap-2">

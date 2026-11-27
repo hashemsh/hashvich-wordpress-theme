@@ -39,12 +39,25 @@ $img_dir_uri = get_template_directory_uri() . '/assets/images/photos/';
 		</div>
 	</div>
 
-	<!-- تصویر گریل و برگرهای داغ -->
-	<div class="relative flex items-center justify-center overflow-hidden rounded-[var(--radius-lg)] bg-card p-6 shadow-sm border border-line/50">
-		<img alt="<?php esc_attr_e( 'آماده‌سازی تازه‌ترین برگرها در آشپزخانه هاشویچ', 'hashvich' ); ?>"
-			 class="select-none object-contain size-full max-h-[460px] drop-shadow-xl"
+	<!-- کلاژ تصویری غذاهای داغ و تازه هاشویچ -->
+	<div class="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] bg-lime border border-line/50 shadow-sm">
+		<img alt="<?php esc_attr_e( 'پیتزا تنوری روی تخته چوبی', 'hashvich' ); ?>"
+			 class="select-none object-contain absolute top-[4%] left-[2%] w-[74%] drop-shadow-md"
+			 draggable="false"
 			 loading="lazy"
 			 decoding="async"
-			 src="<?php echo esc_url( $img_dir_uri . 'burger-hero.webp' ); ?>">
+			 src="<?php echo esc_url( $img_dir_uri . 'pizza-board.webp' ); ?>">
+		<img alt="<?php esc_attr_e( 'برگر داغ و آبدار', 'hashvich' ); ?>"
+			 class="select-none object-contain absolute right-[2%] bottom-[4%] w-[44%] drop-shadow-[var(--shadow-food)]"
+			 draggable="false"
+			 loading="lazy"
+			 decoding="async"
+			 src="<?php echo esc_url( $img_dir_uri . 'burger.webp' ); ?>">
+		<img alt="<?php esc_attr_e( 'میلک‌شیک خنک', 'hashvich' ); ?>"
+			 class="select-none object-contain absolute top-[4%] right-[6%] w-[22%] drop-shadow-sm"
+			 draggable="false"
+			 loading="lazy"
+			 decoding="async"
+			 src="<?php echo esc_url( $img_dir_uri . 'shake.webp' ); ?>">
 	</div>
 </section>

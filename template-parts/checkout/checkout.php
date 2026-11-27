@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // اگر سبد خرید خالی باشد
-if ( WC()->cart->is_empty() ) :
+if ( ! WC()->cart || WC()->cart->is_empty() ) :
 	?>
 	<main id="main" class="min-h-[70vh]">
 		<?php get_template_part( 'template-parts/checkout/hero' ); ?>
@@ -40,7 +40,7 @@ endif;
 	<form id="hv-checkout-form"
 		  name="checkout"
 		  method="post"
-		  class="checkout woocommerce-checkout container-page grid gap-8 py-12 lg:grid-cols-[1.5fr_1fr] lg:gap-10 lg:py-16"
+		  class="checkout woocommerce-checkout container-page py-10 lg:py-14"
 		  action="<?php echo esc_url( wc_get_checkout_url() ); ?>"
 		  enctype="multipart/form-data">
 
@@ -49,11 +49,14 @@ endif;
 		do_action( 'woocommerce_before_checkout_form', WC()->checkout() );
 		?>
 
-		<!-- ۵ مرحله تسویه حساب (ستون چپ) -->
-		<?php get_template_part( 'template-parts/checkout/steps' ); ?>
+		<!-- گرید دو ستونه: ۵ مرحله در یک ستون و سایدبار در ستون دیگر -->
+		<div class="grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:gap-10">
+			<!-- ۵ مرحله تسویه حساب (ستون راست) -->
+			<?php get_template_part( 'template-parts/checkout/steps' ); ?>
 
-		<!-- سایدبار بررسی سفارش و پرداخت (ستون راست) -->
-		<?php get_template_part( 'template-parts/checkout/review' ); ?>
+			<!-- سایدبار بررسی سفارش و پرداخت (ستون چپ) -->
+			<?php get_template_part( 'template-parts/checkout/review' ); ?>
+		</div>
 
 		<!-- فیلدهای امنیتی و توکن ووکامرس -->
 		<?php wp_nonce_field( 'woocommerce-process_checkout', 'woocommerce-process-checkout-nonce' ); ?>

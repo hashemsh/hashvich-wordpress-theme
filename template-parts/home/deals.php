@@ -40,6 +40,7 @@ $menu_url    = home_url( '/menu/' );
 						<h3 class="mt-1 text-[15px] leading-snug font-semibold">
 							<a class="hover:underline max-sm:inline-flex max-sm:min-h-10 max-sm:items-center" href="<?php echo esc_url( $menu_url ); ?>" data-discover="true">برگر مرغ هاشویچ</a>
 						</h3>
+						<p class="text-[12px] text-muted line-clamp-1 mt-0.5">فیله مرغ سوخاری ترد با سالاد کلم و سس خردل عسلی</p>
 						<span class="inline-flex items-center gap-1 mt-1">
 							<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star text-sun" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
 							<span class="text-[13px] font-medium tabular-nums">۴٫۵</span>
@@ -98,6 +99,7 @@ $menu_url    = home_url( '/menu/' );
 						<h3 class="mt-1 text-[15px] leading-snug font-semibold">
 							<a class="hover:underline max-sm:inline-flex max-sm:min-h-10 max-sm:items-center" href="<?php echo esc_url( $menu_url ); ?>" data-discover="true">پاستا قارچ خامه‌ای</a>
 						</h3>
+						<p class="text-[12px] text-muted line-clamp-1 mt-0.5">پاستا تالیتله ایتالیایی با سس خامه و قارچ دکمه‌ای</p>
 						<span class="inline-flex items-center gap-1 mt-1">
 							<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star text-sun" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
 							<span class="text-[13px] font-medium tabular-nums">۴٫۷</span>
@@ -216,6 +218,7 @@ $menu_url    = home_url( '/menu/' );
 						<h3 class="mt-1 text-[15px] leading-snug font-semibold">
 							<a class="hover:underline max-sm:inline-flex max-sm:min-h-10 max-sm:items-center" href="<?php echo esc_url( $menu_url ); ?>" data-discover="true">سالاد باغ تازه</a>
 						</h3>
+						<p class="text-[12px] text-muted line-clamp-1 mt-0.5">کاهو پیچ تازه، گوجه گیلاسی، پنیر فتا و سرکه بالزامیک</p>
 						<span class="inline-flex items-center gap-1 mt-1">
 							<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star text-sun" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
 							<span class="text-[13px] font-medium tabular-nums">۴٫۸</span>
