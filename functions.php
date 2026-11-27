@@ -73,7 +73,9 @@ add_action(
 		wp_enqueue_style( 'hashvich-app', $theme_uri . '/assets/css/app.css', array( 'hashvich-fonts' ), $app_ver );
 
 		// ۳. استایل اصلی قالب
-		wp_enqueue_style( 'hashvich-style', get_stylesheet_uri(), array( 'hashvich-app' ), HASHVICH_VERSION );
+		$style_path = $theme_dir . '/style.css';
+		$style_ver  = file_exists( $style_path ) ? (string) filemtime( $style_path ) : HASHVICH_VERSION;
+		wp_enqueue_style( 'hashvich-style', get_stylesheet_uri(), array( 'hashvich-app' ), $style_ver );
 
 		// ۴. اسکریپت هدر و منوی واکنش‌گرا
 		$header_js_path = $theme_dir . '/assets/js/header.js';

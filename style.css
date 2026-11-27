@@ -112,3 +112,47 @@ Requires PHP: 8.0
 	fill: currentColor;
 	color: var(--color-tomato, #c03d17);
 }
+
+/* ==========================================================================
+   فواصل و هیرو اختصاصی سبد خرید، پرداخت و حساب کاربری (Hero & Grid Spacing)
+   حل قطعی مشکل چسبندگی سبد خرید به هدر بالا
+   ========================================================================== */
+.site-header {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hv-cart-hero,
+.hv-checkout-hero,
+.hv-account-hero {
+	padding-top: 2.5rem !important;
+	padding-bottom: 3.5rem !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (min-width: 768px) {
+	.hv-cart-hero,
+	.hv-checkout-hero,
+	.hv-account-hero {
+		padding-top: 3.25rem !important;
+		padding-bottom: 4.25rem !important;
+	}
+}
+
+.hv-cart-main-grid,
+.hv-checkout-grid {
+	padding-top: 2.75rem !important;
+	padding-bottom: 5rem !important;
+}
+
+@media (min-width: 1024px) {
+	.hv-cart-main-grid,
+	.hv-checkout-grid {
+		padding-top: 3.5rem !important;
+		padding-bottom: 6rem !important;
+	}
+}
+
+.hv-cart-empty-view {
+	padding-top: 4rem !important;
+	padding-bottom: 5.5rem !important;
+}

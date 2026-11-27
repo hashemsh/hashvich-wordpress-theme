@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<div class="container-page py-16 md:py-20 text-center" id="hv-cart-empty-view">
+<div class="container-page py-16 md:py-20 text-center hv-cart-empty-view" id="hv-cart-empty-view">
 	<div class="mx-auto flex size-20 items-center justify-center rounded-full bg-sand text-muted mb-5">
 		<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag text-muted" aria-hidden="true">
 			<path d="M16 10a4 4 0 0 1-8 0"></path>

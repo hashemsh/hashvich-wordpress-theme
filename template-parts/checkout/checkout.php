@@ -40,7 +40,7 @@ endif;
 	<form id="hv-checkout-form"
 		  name="checkout"
 		  method="post"
-		  class="checkout woocommerce-checkout container-page py-10 lg:py-14"
+		  class="checkout woocommerce-checkout container-page hv-checkout-grid"
 		  action="<?php echo esc_url( wc_get_checkout_url() ); ?>"
 		  enctype="multipart/form-data">
 
