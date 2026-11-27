@@ -168,6 +168,27 @@ add_action(
 				)
 			);
 		}
+
+		// ۱۰. اسکریپت صفحه پیشنهادها و تخفیف‌ها
+		if ( is_page( 'offers' ) || is_page_template( 'page-offers.php' ) ) {
+			$offers_js_path = $theme_dir . '/assets/js/offers.js';
+			$offers_js_ver  = file_exists( $offers_js_path ) ? (string) filemtime( $offers_js_path ) : HASHVICH_VERSION;
+			wp_enqueue_script( 'hashvich-offers', $theme_uri . '/assets/js/offers.js', array( 'jquery' ), $offers_js_ver, true );
+		}
+
+		// ۱۱. اسکریپت صفحه نظرات مشتریان
+		if ( is_page( 'reviews' ) || is_page_template( 'page-reviews.php' ) ) {
+			$reviews_js_path = $theme_dir . '/assets/js/reviews.js';
+			$reviews_js_ver  = file_exists( $reviews_js_path ) ? (string) filemtime( $reviews_js_path ) : HASHVICH_VERSION;
+			wp_enqueue_script( 'hashvich-reviews', $theme_uri . '/assets/js/reviews.js', array( 'jquery' ), $reviews_js_ver, true );
+		}
+
+		// ۱۲. اسکریپت صفحه درباره ما و تماس
+		if ( is_page( 'about' ) || is_page_template( 'page-about.php' ) ) {
+			$about_js_path = $theme_dir . '/assets/js/about.js';
+			$about_js_ver  = file_exists( $about_js_path ) ? (string) filemtime( $about_js_path ) : HASHVICH_VERSION;
+			wp_enqueue_script( 'hashvich-about', $theme_uri . '/assets/js/about.js', array( 'jquery' ), $about_js_ver, true );
+		}
 	}
 );
 
