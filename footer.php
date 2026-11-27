@@ -10,8 +10,8 @@ defined( 'ABSPATH' ) || exit;
 
 	<!-- فوتر سراسری سایت -->
 	<footer class="site-footer on-dark doodles bg-forest text-white mt-auto">
-		<!-- ساختار تک‌ردیفهٔ ۴ ستونه: دو ستون کناری عریض، دو ستون میانی جمع‌وجور -->
-		<div class="container-page grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_0.85fr_0.85fr_1.8fr] gap-8 lg:gap-10 pt-16 pb-12 items-start">
+		<!-- گرید اختصاصی ۴ ستونه تک‌ردیفه: دو ستون کناری عریض‌تر و دو ستون میانی جمع‌وجور -->
+		<div class="container-page hv-footer-grid pt-16 pb-12">
 
 			<!-- ستون ۱ (کناری راست - عریض): مشخصات، معرفی و تماس برند -->
 			<div class="flex flex-col gap-4">
@@ -94,7 +94,7 @@ defined( 'ABSPATH' ) || exit;
 					<div class="flex items-center gap-2 w-full">
 						<label for="footer-email-input" class="sr-only"><?php esc_html_e( 'ایمیل', 'hashvich' ); ?></label>
 						<input class="w-full flex-1 min-w-0 rounded-full border-[1.5px] border-line-strong bg-white px-5 text-[15px] text-ink placeholder:text-faint transition-[border-color,box-shadow] duration-[var(--duration-fast)] hov:border-muted focus:border-leaf focus:outline-none focus:shadow-[0_0_0_4px_rgb(23_96_60/0.15)] h-12" id="footer-email-input" autocomplete="email" placeholder="you@example.com" type="email" required>
-						<button type="submit" class="round relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition-[background-color,color,transform] duration-[var(--duration-fast)] ease-[var(--ease-out)] bg-sun text-ink hover:bg-sun-2 h-12 px-7 text-[15px] shrink-0 shadow-[0_4px_14px_rgba(247,195,46,0.3)]">
+						<button type="submit" class="round relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition-[background-color,color,transform] duration-[var(--duration-fast)] ease-[var(--ease-out)] bg-sun text-ink hover:bg-sun-2 h-12 px-6 text-[15px] shrink-0 shadow-[0_4px_14px_rgba(247,195,46,0.3)]">
 							<span><?php esc_html_e( 'عضویت', 'hashvich' ); ?></span>
 						</button>
 					</div>

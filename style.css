@@ -4,8 +4,33 @@ Theme URI: http://hashvich.local
 Description: قالب اختصاصی فست‌فود و رستوران زنجیره‌ای هاشویچ — سبک، بهینه‌سازی‌شده، سازگار با ووکامرس و المنتور.
 Author: Hashem Sh
 Author URI: https://github.com/hashemsh
-Version: 1.0.0
+Version: 1.0.1
 Text Domain: hashvich
 Requires at least: 6.0
 Requires PHP: 8.0
 */
+
+/* ==========================================================================
+   گرید اختصاصی ۴ ستونه فوتر (کناری‌ها عریض‌تر، میانی‌ها جمع‌وجورتر)
+   دقیقاً در یک ردیف افقی کنار هم
+   ========================================================================== */
+.hv-footer-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2rem;
+	align-items: start;
+}
+
+@media (min-width: 640px) {
+	.hv-footer-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem 2.5rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	.hv-footer-grid {
+		grid-template-columns: 1.25fr 0.75fr 0.75fr 1.55fr;
+		gap: 2.5rem;
+	}
+}
