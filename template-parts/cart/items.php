@@ -25,7 +25,14 @@ $diff_free_shipping      = max( 0, $free_shipping_threshold - $subtotal );
 			<?php if ( $diff_free_shipping <= 0 ) : ?>
 				<?php esc_html_e( 'ارسال رایگان برای شما فعال شد!', 'hashvich' ); ?>
 			<?php else : ?>
-				<?php echo sprintf( esc_html__( 'فقط %s تا ارسال رایگان سفارش!', 'hashvich' ), '<strong>' . hashvich_format_price( $diff_free_shipping ) . '</strong>' ); ?>
+				<span>
+					<?php
+					$currency_lbl = function_exists( 'get_woocommerce_currency_symbol' ) ? get_woocommerce_currency_symbol() : 'تومان';
+					$clean_diff   = hashvich_to_persian_num( number_format( $diff_free_shipping ) );
+					/* translators: 1: amount, 2: currency */
+					printf( esc_html__( 'فقط %1$s %2$s تا ارسال رایگان سفارش!', 'hashvich' ), '<strong class="font-bold tabular-nums">' . esc_html( $clean_diff ) . '</strong>', esc_html( $currency_lbl ) );
+					?>
+				</span>
 			<?php endif; ?>
 		</p>
 		<div class="mt-3 h-2 overflow-hidden rounded-full bg-white" role="progressbar" aria-label="<?php esc_attr_e( 'پیشرفت تا ارسال رایگان', 'hashvich' ); ?>" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?php echo esc_attr( $pct_free_shipping ); ?>">

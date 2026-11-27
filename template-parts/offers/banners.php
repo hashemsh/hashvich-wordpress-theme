@@ -54,7 +54,7 @@ $menu_url    = home_url( '/menu/' );
 						</a>
 					</div>
 				</div>
-				<img alt="" class="pointer-events-none absolute bottom-0 left-4 max-h-[85%] w-[44%] select-none object-contain drop-shadow-xl" loading="lazy" decoding="async" src="<?php echo esc_url( $img_dir_uri . 'photos/pizza.webp' ); ?>">
+				<img alt="" class="pointer-events-none absolute bottom-0 left-4 max-h-[85%] w-[44%] select-none object-contain drop-shadow-xl" loading="lazy" decoding="async" src="<?php echo esc_url( $img_dir_uri . 'photos/pizza-pepperoni.webp' ); ?>">
 			</article>
 		</div>
 
