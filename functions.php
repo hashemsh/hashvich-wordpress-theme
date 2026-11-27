@@ -48,7 +48,6 @@ add_action(
 				'primary'       => __( 'منوی اصلی هدر', 'hashvich' ),
 				'footer_orders' => __( 'فوتر — سفارش', 'hashvich' ),
 				'footer_brand'  => __( 'فوتر — هاشویچ', 'hashvich' ),
-				'footer_more'   => __( 'فوتر — ساخت و سایر', 'hashvich' ),
 			)
 		);
 	}

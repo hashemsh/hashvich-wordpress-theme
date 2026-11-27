@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 
 			<!-- ستون ۲: لینک‌های راهنما و خبرنامه -->
-			<div class="grid gap-10 sm:grid-cols-3 lg:grid-cols-[1fr_1fr_1fr_1.6fr]">
+			<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_2.4fr]">
 
 				<!-- ستون لینک‌های سفارش -->
 				<div>
@@ -88,39 +88,15 @@ defined( 'ABSPATH' ) || exit;
 					?>
 				</div>
 
-				<!-- ستون لینک‌های ساخت و توسعه -->
-				<div>
-					<h2 class="mb-3 text-[15px] font-semibold text-sun"><?php esc_html_e( 'ساخت', 'hashvich' ); ?></h2>
-					<?php
-					if ( has_nav_menu( 'footer_more' ) ) {
-						wp_nav_menu(
-							array(
-								'theme_location' => 'footer_more',
-								'container'      => false,
-								'menu_class'     => 'flex flex-col',
-								'fallback_cb'    => false,
-							)
-						);
-					} else {
-						?>
-						<ul class="flex flex-col">
-							<li><a class="inline-flex min-h-10 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/styleguide/' ) ); ?>"><?php esc_html_e( 'راهنمای استایل', 'hashvich' ); ?></a></li>
-							<li><a class="inline-flex min-h-10 items-center text-[15px] text-on-forest-muted hover:text-white transition-colors" href="<?php echo esc_url( home_url( '/shop/' ) ); ?>"><?php esc_html_e( 'فروشگاه', 'hashvich' ); ?></a></li>
-						</ul>
-						<?php
-					}
-					?>
-				</div>
-
-				<!-- فرم عضویت خبرنامه -->
-				<div class="sm:col-span-3 lg:col-span-1">
+				<!-- فرم عضویت خبرنامه با عرض گسترده -->
+				<div class="sm:col-span-2 lg:col-span-1">
 					<h2 class="mb-2 text-[15px] font-semibold text-sun"><?php esc_html_e( 'تخفیف‌ها در ایمیل شما', 'hashvich' ); ?></h2>
 					<p class="mb-4 text-[14px] text-on-forest-muted"><?php esc_html_e( 'هفته‌ای یک ایمیل با غذاهای جدید و بهترین کدها. هر وقت خواستید لغو کنید.', 'hashvich' ); ?></p>
 					<form method="post" action="" class="flex flex-col gap-2" onsubmit="event.preventDefault(); alert('ایمیل شما با موفقیت ثبت شد!');">
-						<div class="flex flex-wrap gap-2">
+						<div class="flex items-center gap-2 w-full">
 							<label for="footer-email-input" class="sr-only"><?php esc_html_e( 'ایمیل', 'hashvich' ); ?></label>
-							<input class="w-full rounded-full border-[1.5px] border-line-strong bg-white px-4 text-[15px] text-ink placeholder:text-faint transition-[border-color,box-shadow] duration-[var(--duration-fast)] hov:border-muted focus:border-leaf focus:outline-none focus:shadow-[0_0_0_4px_rgb(23_96_60/0.15)] h-12 min-w-[200px] flex-1" id="footer-email-input" autocomplete="email" placeholder="you@example.com" type="email" required>
-							<button type="submit" class="round relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-[background-color,color,transform] duration-[var(--duration-fast)] ease-[var(--ease-out)] bg-sun text-ink hover:bg-sun-2 h-12 px-6 text-[15px] shrink-0">
+							<input class="w-full flex-1 min-w-0 rounded-full border-[1.5px] border-line-strong bg-white px-5 text-[15px] text-ink placeholder:text-faint transition-[border-color,box-shadow] duration-[var(--duration-fast)] hov:border-muted focus:border-leaf focus:outline-none focus:shadow-[0_0_0_4px_rgb(23_96_60/0.15)] h-12" id="footer-email-input" autocomplete="email" placeholder="you@example.com" type="email" required>
+							<button type="submit" class="round relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition-[background-color,color,transform] duration-[var(--duration-fast)] ease-[var(--ease-out)] bg-sun text-ink hover:bg-sun-2 h-12 px-7 text-[15px] shrink-0 shadow-[0_4px_14px_rgba(247,195,46,0.3)]">
 								<span><?php esc_html_e( 'عضویت', 'hashvich' ); ?></span>
 							</button>
 						</div>
