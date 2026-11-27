@@ -13,7 +13,7 @@ $home_url     = home_url( '/' );
 ?>
 
 <!-- هیرو بخش حساب کاربری -->
-<section class="on-dark bg-forest text-white py-8 md:py-10 border-b border-white/10" aria-label="<?php esc_attr_e( 'حساب کاربری', 'hashvich' ); ?>">
+<section class="on-dark doodles relative overflow-hidden bg-forest text-white hv-account-hero" aria-label="<?php esc_attr_e( 'حساب کاربری', 'hashvich' ); ?>">
 	<div class="container-page flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 		<div>
 			<nav class="flex items-center gap-2 text-[13px] text-white/70 mb-2" aria-label="<?php esc_attr_e( 'مسیر راهنما', 'hashvich' ); ?>">
@@ -37,7 +37,7 @@ $home_url     = home_url( '/' );
 	</div>
 </section>
 
-<main class="container-page py-10 md:py-14">
+<main class="container-page hv-account-container">
 	<div class="grid gap-8 lg:grid-cols-[280px_1fr] lg:gap-10 items-start">
 		<!-- ستون سایدبار ناوبری -->
 		<aside class="w-full">

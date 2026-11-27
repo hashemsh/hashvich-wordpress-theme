@@ -14,7 +14,7 @@ $active_tab           = ( ! empty( $_POST['register'] ) ) ? 'register' : 'login'
 ?>
 
 <!-- هیرو بخش ورود / حساب کاربری -->
-<section class="on-dark bg-forest text-white py-8 md:py-10 border-b border-white/10" aria-label="<?php esc_attr_e( 'حساب کاربری', 'hashvich' ); ?>">
+<section class="on-dark doodles relative overflow-hidden bg-forest text-white hv-account-hero" aria-label="<?php esc_attr_e( 'حساب کاربری', 'hashvich' ); ?>">
 	<div class="container-page flex flex-col items-center text-center">
 		<nav class="flex items-center gap-2 text-[13px] text-white/70 mb-3" aria-label="<?php esc_attr_e( 'مسیر راهنما', 'hashvich' ); ?>">
 			<a href="<?php echo esc_url( $home_url ); ?>" class="hover:text-sun transition-colors"><?php esc_html_e( 'خانه', 'hashvich' ); ?></a>
@@ -30,7 +30,7 @@ $active_tab           = ( ! empty( $_POST['register'] ) ) ? 'register' : 'login'
 	</div>
 </section>
 
-<main class="container-page py-10 md:py-16">
+<main class="container-page hv-account-container">
 	<!-- پیام‌ها و خطاهای ووکامرس -->
 	<div class="max-w-xl mx-auto mb-6">
 		<?php do_action( 'woocommerce_before_customer_login_form' ); ?>

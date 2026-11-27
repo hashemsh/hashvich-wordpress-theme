@@ -17,7 +17,7 @@ while ( have_posts() ) :
 		the_content();
 	} else {
 		?>
-		<main id="main" class="container-page py-12 md:py-16">
+		<main id="main" class="container-page py-12 md:py-16 hv-page-container">
 			<article id="post-<?php the_ID(); ?>" <?php post_class( 'max-w-4xl mx-auto rounded-[var(--radius-xl)] bg-card border border-line/40 p-6 md:p-10 shadow-sm' ); ?>>
 				<h1 class="text-[24px] md:text-[30px] font-bold mb-6 text-ink pb-4 border-b border-line/40"><?php the_title(); ?></h1>
 				<div class="leading-relaxed text-[15px] text-muted space-y-4">

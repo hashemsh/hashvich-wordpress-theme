@@ -114,18 +114,19 @@ Requires PHP: 8.0
 }
 
 /* ==========================================================================
-   فواصل و هیرو اختصاصی سبد خرید، پرداخت و حساب کاربری (Hero & Grid Spacing)
-   حل قطعی مشکل چسبندگی سبد خرید به هدر بالا
+   فواصل و هیرو اختصاصی سبد خرید، پرداخت، حساب کاربری و برگه‌ها (Universal Page Spacing)
+   حل قطعی مشکل چسبندگی و فواصل صفحات از بالا و پایین
    ========================================================================== */
 .site-header {
 	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+/* هیرو صفحات داخلی */
 .hv-cart-hero,
 .hv-checkout-hero,
 .hv-account-hero {
-	padding-top: 2.5rem !important;
-	padding-bottom: 3.5rem !important;
+	padding-top: 2.75rem !important;
+	padding-bottom: 3.75rem !important;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -133,35 +134,64 @@ Requires PHP: 8.0
 	.hv-cart-hero,
 	.hv-checkout-hero,
 	.hv-account-hero {
-		padding-top: 3.25rem !important;
-		padding-bottom: 4.25rem !important;
+		padding-top: 3.5rem !important;
+		padding-bottom: 4.75rem !important;
 	}
 }
 
+/* کانتینر سبد خرید */
 .hv-cart-main-grid {
-	padding-top: 2.75rem !important;
-	padding-bottom: 5rem !important;
+	padding-top: 3rem !important;
+	padding-bottom: 5.5rem !important;
 }
 
 @media (min-width: 1024px) {
 	.hv-cart-main-grid {
-		padding-top: 3.5rem !important;
-		padding-bottom: 6rem !important;
+		padding-top: 3.75rem !important;
+		padding-bottom: 6.5rem !important;
 	}
 }
 
+/* کانتینر تسویه‌حساب */
 .hv-checkout-grid {
 	padding-top: 3.25rem !important;
-	padding-bottom: 6rem !important;
+	padding-bottom: 6.5rem !important;
 }
 
 @media (min-width: 1024px) {
 	.hv-checkout-grid {
 		padding-top: 4rem !important;
+		padding-bottom: 8rem !important;
+	}
+}
+
+/* کانتینر حساب کاربری و ورود/ثبت‌نام */
+.hv-account-container {
+	padding-top: 3.25rem !important;
+	padding-bottom: 6rem !important;
+}
+
+@media (min-width: 1024px) {
+	.hv-account-container {
+		padding-top: 4.25rem !important;
+		padding-bottom: 8rem !important;
+	}
+}
+
+/* کانتینر برگه‌های استاندارد */
+.hv-page-container {
+	padding-top: 3.25rem !important;
+	padding-bottom: 6rem !important;
+}
+
+@media (min-width: 1024px) {
+	.hv-page-container {
+		padding-top: 4.25rem !important;
 		padding-bottom: 7.5rem !important;
 	}
 }
 
+/* وضعیت خالی سبد و پرداخت */
 .hv-cart-empty-view,
 .hv-checkout-empty-view {
 	padding-top: 4.5rem !important;
@@ -170,4 +200,29 @@ Requires PHP: 8.0
 
 .woocommerce-notices-wrapper:not(:empty) {
 	margin-bottom: 2rem !important;
+}
+
+/* یوتیلیتی‌های پدینگ جهت اطمینان از اعمال در تمامی برگه‌ها */
+.py-8 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+.py-10 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+.py-12 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+.py-14 { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
+.py-16 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+.py-20 { padding-top: 5rem !important; padding-bottom: 5rem !important; }
+
+@media (min-width: 768px) {
+	.md\:pt-12 { padding-top: 3rem !important; }
+	.md\:pt-28 { padding-top: 7rem !important; }
+	.md\:pb-20 { padding-bottom: 5rem !important; }
+	.md\:py-10 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+	.md\:py-12 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+	.md\:py-14 { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
+	.md\:py-16 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+	.md\:py-20 { padding-top: 5rem !important; padding-bottom: 5rem !important; }
+}
+
+@media (min-width: 1024px) {
+	.lg\:py-14 { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
+	.lg\:py-16 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+	.lg\:py-20 { padding-top: 5rem !important; padding-bottom: 5rem !important; }
 }
